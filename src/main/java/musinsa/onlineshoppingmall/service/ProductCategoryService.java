@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ProductCategoryService {
 
-    private ProductCategoryRepository productCategoryRepository;
+    private final ProductCategoryRepository productCategoryRepository;
 
     @Transactional
     public ProductCategoryItem saveCategory(ProductCategoryCreateForm form) {

@@ -29,4 +29,12 @@ public class ProductCategory extends BaseTimeEntity {
 
     private String name;
 
+    private ProductCategory(String name) {
+        this.name = name;
+    }
+
+    public static ProductCategory of(String name) {
+        return new ProductCategory(name);
+    }
+
 }

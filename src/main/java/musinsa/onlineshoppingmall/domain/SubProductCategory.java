@@ -15,20 +15,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "sub_item_category")
+@Table(name = "sub_product_category")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SubItemCategory extends BaseTimeEntity {
+public class SubProductCategory extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "sub_item_category_id")
+    @Column(name = "sub_product_category_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_category_id")
+    @JoinColumn(name = "product_category_id")
     @NotNull
-    private ItemCategory itemCategory;
+    private ProductCategory productCategory;
 
     private String name;
 

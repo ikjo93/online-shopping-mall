@@ -14,18 +14,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "item_category")
+@Table(name = "product_category")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ItemCategory extends BaseTimeEntity {
+public class ProductCategory extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_category_id")
+    @Column(name = "product_category_id")
     private Long id;
 
-    @OneToMany(mappedBy = "itemCategory")
-    private List<SubItemCategory> subItemCategories = new ArrayList<>();
+    @OneToMany(mappedBy = "productCategory")
+    private List<SubProductCategory> subItemCategories = new ArrayList<>();
 
     private String name;
 

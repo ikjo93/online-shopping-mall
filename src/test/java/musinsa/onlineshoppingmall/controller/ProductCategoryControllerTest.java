@@ -31,7 +31,7 @@ class ProductCategoryControllerTest {
     private ProductCategoryService productCategoryService;
 
     @Test
-    @DisplayName("사용자의 신규 상품 카테고리 등록을 요청을 처리할 수 있다.")
+    @DisplayName("사용자의 신규 상품 카테고리 등록 요청을 처리할 수 있다.")
     void 신규_상품_카테고리_등록_요청_처리() throws Exception {
         // given
         String requestBody = "{\n"
@@ -59,7 +59,7 @@ class ProductCategoryControllerTest {
     }
 
     @Test
-    @DisplayName("신규 상품 카테고리 등록 요청 데이터가 빈값인지 검증한다.")
+    @DisplayName("신규 상품 카테고리 등록 요청 시 데이터가 빈값인지 검증한다.")
     void 신규_상품_카테고리_등록_요청_데이터_빈값_검증() throws Exception {
         // given
         String requestBody = "{\n"
@@ -81,7 +81,7 @@ class ProductCategoryControllerTest {
     }
 
     @Test
-    @DisplayName("신규 상품 카테고리 등록 요청 데이터가 공백 문자인지 검증한다.")
+    @DisplayName("신규 상품 카테고리 등록 요청 시 데이터가 공백 문자인지 검증한다.")
     void 신규_상품_카테고리_등록_요청_데이터_공백문자_검증() throws Exception {
         // given
         String requestBody = "{\n"
@@ -103,7 +103,7 @@ class ProductCategoryControllerTest {
     }
 
     @Test
-    @DisplayName("신규 상품 카테고리 등록 요청 데이터가 올바른 형식인지 검증한다.")
+    @DisplayName("신규 상품 카테고리 등록 요청 시 데이터가 올바른 형식인지 검증한다.")
     void 신규_상품_카테고리_등록_요청_데이터_형식_검증() throws Exception {
         // given
         String requestBody = "{\n"
@@ -125,7 +125,7 @@ class ProductCategoryControllerTest {
     }
 
     @Test
-    @DisplayName("신규 상품 카테고리 등록 요청 데이터가 널값인지 검증한다.")
+    @DisplayName("신규 상품 카테고리 등록 요청 시 데이터가 널값인지 검증한다.")
     void 신규_상품_카테고리_등록_요청_데이터_널값_검증() throws Exception {
         // given
         String requestBody = "{\n"

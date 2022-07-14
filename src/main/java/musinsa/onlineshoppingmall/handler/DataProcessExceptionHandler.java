@@ -4,6 +4,7 @@ import musinsa.onlineshoppingmall.dto.ResponseMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 @ResponseBody
 public class DataProcessExceptionHandler {
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ResponseMessage> handleIllegalStateException() {
+        ResponseMessage message = ResponseMessage.create(HttpStatus.NOT_FOUND, "잘못된 요청입니다.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+    }
 
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<ResponseMessage> handleIllegalStateException(IllegalStateException exception) {

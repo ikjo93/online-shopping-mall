@@ -1,0 +1,32 @@
+package musinsa.onlineshoppingmall.repository;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import musinsa.onlineshoppingmall.domain.ProductCategory;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+@DisplayName("ProductCategoryRepository 단위 테스트")
+@DataJpaTest
+@AutoConfigureTestEntityManager
+class ProductCategoryRepositoryTest {
+
+    @Autowired
+    private ProductCategoryRepository productCategoryRepository;
+
+    @Test
+    @DisplayName("상품 카테고리 이름에 해당되는 상품 카테고리 정보를 조회할 수 있다.")
+    void findByName() {
+        // given
+        ProductCategory savedProductCategory = productCategoryRepository.save(ProductCategory.of("신발"));
+
+        // when
+        ProductCategory findProductCategory = productCategoryRepository.findByName("신발");
+
+        // then
+        assertThat(findProductCategory).isEqualTo(savedProductCategory);
+    }
+}

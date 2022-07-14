@@ -10,12 +10,16 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "product_category")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductCategory extends BaseTimeEntity {
 
@@ -28,13 +32,5 @@ public class ProductCategory extends BaseTimeEntity {
     private List<SubProductCategory> subItemCategories = new ArrayList<>();
 
     private String name;
-
-    private ProductCategory(String name) {
-        this.name = name;
-    }
-
-    public static ProductCategory of(String name) {
-        return new ProductCategory(name);
-    }
 
 }

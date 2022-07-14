@@ -5,7 +5,6 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import musinsa.onlineshoppingmall.domain.ProductCategory;
 import musinsa.onlineshoppingmall.dto.ProductCategoryCreateForm;
 import musinsa.onlineshoppingmall.dto.ProductCategoryItem;

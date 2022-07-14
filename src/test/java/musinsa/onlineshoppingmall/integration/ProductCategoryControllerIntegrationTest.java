@@ -14,9 +14,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+@DisplayName("ProductCategoryController 통합테스트")
 @SpringBootTest
 @AutoConfigureMockMvc
-@DisplayName("ProductCategoryController 통합테스트")
 public class ProductCategoryControllerIntegrationTest {
 
     @Autowired

@@ -28,9 +28,6 @@ class ProductCategoryControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @MockBean
     private ProductCategoryService productCategoryService;
 
@@ -38,7 +35,9 @@ class ProductCategoryControllerTest {
     @DisplayName("사용자의 신규 상품 카테고리 등록을 요청을 처리할 수 있다.")
     void 신규_상품_카테고리_등록_요청_처리() throws Exception {
         // given
-        String requestBody = objectMapper.writeValueAsString(new ProductCategoryCreateForm("신발"));
+        String requestBody = "{\n"
+            + "    \"name\" : \"신발\"\n"
+            + "}";
         ProductCategoryItem responseBody = ProductCategoryItem.from(ProductCategory.builder()
             .id(1l)
             .name("신발")

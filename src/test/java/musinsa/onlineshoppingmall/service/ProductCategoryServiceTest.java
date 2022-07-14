@@ -44,7 +44,7 @@ class ProductCategoryServiceTest {
 
         // then
         assertThat(shoesCategory.getId()).isEqualTo(1l);
-        assertThat(shoesCategory.getCategoryName()).isEqualTo("신발");
+        assertThat(shoesCategory.getName()).isEqualTo("신발");
     }
 
     @Test

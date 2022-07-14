@@ -10,7 +10,7 @@ import musinsa.onlineshoppingmall.domain.ProductCategory;
 public class ProductCategoryItem {
 
     private Long id;
-    private String categoryName;
+    private String name;
 
     public static ProductCategoryItem from(ProductCategory productCategory) {
         return new ProductCategoryItem(productCategory.getId(), productCategory.getName());

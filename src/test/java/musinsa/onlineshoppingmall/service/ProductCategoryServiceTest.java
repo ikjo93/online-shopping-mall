@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import musinsa.onlineshoppingmall.domain.ProductCategory;
-import musinsa.onlineshoppingmall.dto.ProductCategoryCreateForm;
+import musinsa.onlineshoppingmall.dto.ProductCategoryForm;
 import musinsa.onlineshoppingmall.dto.ProductCategoryItem;
 import musinsa.onlineshoppingmall.repository.ProductCategoryRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -39,7 +39,7 @@ class ProductCategoryServiceTest {
 
         // when
         ProductCategoryItem shoesCategory = productCategoryService.saveCategory(
-            new ProductCategoryCreateForm("신발")
+            new ProductCategoryForm("신발")
         );
 
         // then
@@ -60,7 +60,7 @@ class ProductCategoryServiceTest {
 
         // when, then
         assertThatThrownBy(() -> productCategoryService.saveCategory(
-            new ProductCategoryCreateForm("신발")
+            new ProductCategoryForm("신발")
         ))
             .isInstanceOf(IllegalStateException.class)
             .hasMessageContaining("이미 존재하는 카테고리입니다.");

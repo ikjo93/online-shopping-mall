@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import musinsa.onlineshoppingmall.domain.ProductCategory;
-import musinsa.onlineshoppingmall.dto.ProductCategoryCreateForm;
+import musinsa.onlineshoppingmall.dto.ProductCategoryForm;
 import musinsa.onlineshoppingmall.dto.ProductCategoryItem;
 import musinsa.onlineshoppingmall.service.ProductCategoryService;
 import org.junit.jupiter.api.DisplayName;
@@ -42,7 +42,7 @@ class ProductCategoryControllerTest {
             .name("신발")
             .build()
         );
-        given(productCategoryService.saveCategory(any(ProductCategoryCreateForm.class))).willReturn(responseBody);
+        given(productCategoryService.saveCategory(any(ProductCategoryForm.class))).willReturn(responseBody);
 
         // when
         ResultActions resultActions = mockMvc.perform(

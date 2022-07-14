@@ -1,5 +1,6 @@
 package musinsa.onlineshoppingmall.controller;
 
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import musinsa.onlineshoppingmall.dto.ProductCategoryItem;
 import musinsa.onlineshoppingmall.dto.ProductCategoryCreateForm;
@@ -15,7 +16,7 @@ public class ProductCategoryController {
     private final ProductCategoryService productCategoryService;
 
     @PostMapping("/api/product-categories")
-    public ProductCategoryItem create(@RequestBody ProductCategoryCreateForm form) {
+    public ProductCategoryItem create(@Valid @RequestBody ProductCategoryCreateForm form) {
         return productCategoryService.saveCategory(form);
     }
 

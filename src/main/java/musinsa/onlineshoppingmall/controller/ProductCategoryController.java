@@ -4,7 +4,10 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import musinsa.onlineshoppingmall.dto.ProductCategoryItem;
 import musinsa.onlineshoppingmall.dto.ProductCategoryCreateForm;
+import musinsa.onlineshoppingmall.dto.SubProductCategoryItems;
 import musinsa.onlineshoppingmall.service.ProductCategoryService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductCategoryController {
 
     private final ProductCategoryService productCategoryService;
+
+    @GetMapping("/api/product-categories/{id}")
+    public SubProductCategoryItems subCategories(@PathVariable Long id) {
+        return productCategoryService.getSubCategoriesById(id);
+    }
 
     @PostMapping("/api/product-categories")
     public ProductCategoryItem create(@Valid @RequestBody ProductCategoryCreateForm form) {

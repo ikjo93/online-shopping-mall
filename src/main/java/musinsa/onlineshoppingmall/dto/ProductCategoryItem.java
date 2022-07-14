@@ -3,7 +3,6 @@ package musinsa.onlineshoppingmall.dto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import musinsa.onlineshoppingmall.domain.ProductCategory;
 
 @Getter

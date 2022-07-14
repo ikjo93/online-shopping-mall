@@ -8,6 +8,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class SubProductCategoryItems {
 
-    private final List<SubProductCategoryItem> categories;
+    private final List<SubProductCategoryItem> subCategories;
 
 }

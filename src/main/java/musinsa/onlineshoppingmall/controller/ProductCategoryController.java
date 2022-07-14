@@ -3,7 +3,8 @@ package musinsa.onlineshoppingmall.controller;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import musinsa.onlineshoppingmall.dto.ProductCategoryItem;
-import musinsa.onlineshoppingmall.dto.ProductCategoryCreateForm;
+import musinsa.onlineshoppingmall.dto.ProductCategoryForm;
+import musinsa.onlineshoppingmall.dto.ProductCategoryItems;
 import musinsa.onlineshoppingmall.dto.SubProductCategoryItems;
 import musinsa.onlineshoppingmall.service.ProductCategoryService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,13 @@ public class ProductCategoryController {
         return productCategoryService.getSubCategoriesById(id);
     }
 
+    @GetMapping("/api/product-categories")
+    public ProductCategoryItems getTotalCategories() {
+        return productCategoryService.getTotalCategories();
+    }
+
     @PostMapping("/api/product-categories")
-    public ProductCategoryItem create(@Valid @RequestBody ProductCategoryCreateForm form) {
+    public ProductCategoryItem create(@Valid @RequestBody ProductCategoryForm form) {
         return productCategoryService.saveCategory(form);
     }
 

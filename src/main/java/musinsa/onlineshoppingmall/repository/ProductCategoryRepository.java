@@ -1,5 +1,6 @@
 package musinsa.onlineshoppingmall.repository;
 
+import java.util.List;
 import java.util.Optional;
 import musinsa.onlineshoppingmall.domain.ProductCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +12,10 @@ public interface ProductCategoryRepository extends JpaRepository<ProductCategory
     @Override
     @Query("select distinct pc from ProductCategory pc join fetch pc.subItemCategories where pc.id = :id")
     Optional<ProductCategory> findById(@Param("id") Long id);
+
+    @Override
+    @Query("select distinct pc from ProductCategory pc join fetch pc.subItemCategories")
+    List<ProductCategory> findAll();
 
     ProductCategory findByName(String name);
 

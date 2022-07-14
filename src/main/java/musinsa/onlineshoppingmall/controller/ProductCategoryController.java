@@ -5,8 +5,12 @@ import lombok.RequiredArgsConstructor;
 import musinsa.onlineshoppingmall.dto.ProductCategoryItem;
 import musinsa.onlineshoppingmall.dto.ProductCategoryForm;
 import musinsa.onlineshoppingmall.dto.ProductCategoryItems;
+import musinsa.onlineshoppingmall.dto.ResponseMessage;
 import musinsa.onlineshoppingmall.dto.SubProductCategoryItems;
 import musinsa.onlineshoppingmall.service.ProductCategoryService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +36,12 @@ public class ProductCategoryController {
     @PostMapping("/api/product-categories")
     public ProductCategoryItem create(@Valid @RequestBody ProductCategoryForm form) {
         return productCategoryService.saveCategory(form);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ResponseMessage> handleIllegalStateException(IllegalStateException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+            .body(ResponseMessage.create(HttpStatus.CONFLICT, exception.getMessage()));
     }
 
 }

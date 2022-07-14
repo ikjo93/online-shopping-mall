@@ -59,7 +59,7 @@ class ProductCategoryControllerTest {
     }
 
     @Test
-    @DisplayName("신규 상품 카테고리 등록 요청 시 데이터가 빈값, 널값, 공백문자인지 검증한다.")
+    @DisplayName("신규 상품 카테고리 등록 요청 시 데이터가 올바른 형식인지 검증한다.")
     void 신규_상품_카테고리_등록_요청_데이터_검증() throws Exception {
         // given
         String[] requestBodies = {"{\n"
@@ -68,6 +68,8 @@ class ProductCategoryControllerTest {
             + "    \"name\" : \"   \"\n"
             + "}", "{\n"
             + "    \"name\" : null\n"
+            + "}", "{\n"
+            + "    \"id\" : \n"
             + "}"};
 
         for (String requestBody : requestBodies) {
@@ -82,30 +84,9 @@ class ProductCategoryControllerTest {
             // then
             resultActions.andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$..['status']").value("BAD_REQUEST"))
-                .andExpect(jsonPath("$..['message']").value("문자 형식의 데이터를 입력해주세요."));
+                .andExpect(jsonPath("$..['message']").value("잘못된 형식의 데이터입니다."));
         }
 
     }
 
-    @Test
-    @DisplayName("신규 상품 카테고리 등록 요청 시 데이터가 올바른 형식인지 검증한다.")
-    void 신규_상품_카테고리_등록_요청_데이터_형식_검증() throws Exception {
-        // given
-        String requestBody = "{\n"
-            + "    \"id\" : \n"
-            + "}";
-
-        // when
-        ResultActions resultActions = mockMvc.perform(
-            post("/api/product-categories")
-                .content(requestBody)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-        );
-
-        // then
-        resultActions.andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$..['status']").value("BAD_REQUEST"))
-            .andExpect(jsonPath("$..['message']").value("요청 바디 상 데이터 항목이 잘못된 형식으로 입력되었습니다."));
-    }
 }

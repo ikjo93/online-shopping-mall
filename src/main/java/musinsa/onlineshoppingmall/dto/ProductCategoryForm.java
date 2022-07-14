@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductCategoryForm {
 
-    @NotBlank(message = "문자 형식의 데이터를 입력해주세요.")
+    @NotBlank
     private String name;
 
 }

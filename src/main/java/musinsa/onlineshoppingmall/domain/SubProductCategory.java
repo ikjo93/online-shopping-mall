@@ -31,7 +31,6 @@ public class SubProductCategory extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "upper_product_category_id")
-    @NotNull
     private UpperProductCategory upperProductCategory;
 
     private String name;

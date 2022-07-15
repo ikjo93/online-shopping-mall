@@ -34,6 +34,9 @@ public class ProductCategory extends BaseTimeEntity {
 
     private String name;
 
+    /**
+     * 비지니스 로직
+     */
     public void validateDuplicateName(String name) {
         if (this.name.equals(name)) {
             throw new IllegalStateException("하위 카테고리는 상위 카테고리와 동일한 이름일 수 없습니다.");

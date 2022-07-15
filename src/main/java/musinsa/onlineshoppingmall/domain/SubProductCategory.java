@@ -36,7 +36,17 @@ public class SubProductCategory extends BaseTimeEntity {
 
     private String name;
 
+    /**
+     * 비지니스 로직
+     */
     public boolean hasSameName(String name) {
         return this.name.equals(name);
+    }
+
+    public void updateInfo(ProductCategory parentCategory, String name) {
+        this.parentCategory.getSubProductCategories().remove(this);
+        this.parentCategory = parentCategory;
+        this.parentCategory.addSubProductCategory(this);
+        this.name = name;
     }
 }

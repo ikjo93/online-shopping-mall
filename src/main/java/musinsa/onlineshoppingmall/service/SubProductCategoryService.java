@@ -27,6 +27,7 @@ public class SubProductCategoryService {
             .build();
 
         SubProductCategory savedSubProductCategory = subProductCategoryRepository.save(subProductCategory);
+        parentCategory.addSubProductCategory(savedSubProductCategory);
 
         return SubProductCategoryItem.from(savedSubProductCategory);
     }

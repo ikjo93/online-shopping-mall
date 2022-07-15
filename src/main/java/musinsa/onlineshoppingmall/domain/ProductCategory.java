@@ -48,4 +48,8 @@ public class ProductCategory extends BaseTimeEntity {
                 throw new IllegalStateException("이미 존재하는 하위 카테고리 이름입니다.");
             });
     }
+
+    public void addSubProductCategory(SubProductCategory subProductCategory) {
+        subProductCategories.add(subProductCategory);
+    }
 }

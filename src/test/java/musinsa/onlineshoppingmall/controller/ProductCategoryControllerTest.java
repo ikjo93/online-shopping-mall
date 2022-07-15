@@ -31,14 +31,20 @@ class ProductCategoryControllerTest {
     private ProductCategoryService productCategoryService;
 
     @Test
-    @DisplayName("사용자의 신규 상품 카테고리 등록 요청을 처리할 수 있다.")
+    @DisplayName("신규 상품 카테고리 등록 요청을 처리할 수 있다.")
     void 신규_상품_카테고리_등록_요청_처리() throws Exception {
         // given
         String requestBody = "{\n"
             + "    \"name\" : \"신발\"\n"
             + "}";
-        ProductCategoryItem responseBody = ProductCategoryItem.from(ProductCategory.of(1L, "신발"));
-        given(productCategoryService.saveCategory(any(ProductCategoryForm.class))).willReturn(responseBody);
+
+        ProductCategory productCategory = ProductCategory.builder()
+            .id(1L)
+            .name("신발")
+            .build();
+
+        ProductCategoryItem responseBody = ProductCategoryItem.from(productCategory);
+        given(productCategoryService.saveCategory("신발")).willReturn(responseBody);
 
         // when
         ResultActions resultActions = mockMvc.perform(

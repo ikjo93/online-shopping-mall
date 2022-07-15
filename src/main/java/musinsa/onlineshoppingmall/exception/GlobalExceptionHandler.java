@@ -1,6 +1,7 @@
 package musinsa.onlineshoppingmall.exception;
 
 import musinsa.onlineshoppingmall.dto.ResponseMessage;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -25,6 +26,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseMessage> handleMethodArgumentNotValidException() {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(ResponseMessage.create(HttpStatus.BAD_REQUEST, "잘못된 형식의 데이터입니다."));
+    }
+
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    public ResponseEntity<ResponseMessage> handleEmptyResultDataAccessException() {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+            .body(ResponseMessage.create(HttpStatus.CONFLICT, "해당되는 데이터가 없습니다."));
     }
 
     @ExceptionHandler(IllegalStateException.class)

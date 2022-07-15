@@ -60,6 +60,20 @@ public class UpperProductCategoryService {
     }
 
     @Transactional
+    public UpperProductCategoryItem updateCategory(Long id, String name) {
+        UpperProductCategory upperProductCategory = getUpperProductCategoryByIdOrThrow(id);
+        upperProductCategory.updateName(name);
+
+        return UpperProductCategoryItem.from(upperProductCategory);
+    }
+
+    private UpperProductCategory getUpperProductCategoryByIdOrThrow(Long id) {
+        return upperProductCategoryRepository.findById(id).orElseThrow(() -> {
+            throw new IllegalStateException("존재하는 상위 상품 카테고리가 없습니다.");
+        });
+    }
+
+    @Transactional
     public void deleteCategory(Long id) {
         upperProductCategoryRepository.deleteById(id);
     }

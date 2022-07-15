@@ -67,6 +67,10 @@ public class UpperProductCategory extends BaseTimeEntity {
         subProductCategories.add(subProductCategory);
     }
 
+    public void updateName(String name) {
+        this.name = name;
+    }
+
     @PreRemove
     public void removeSubProductCategory() {
         subProductCategories.forEach(subProductCategory -> subProductCategory.initUpperProductCategory());

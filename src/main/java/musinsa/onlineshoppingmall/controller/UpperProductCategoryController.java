@@ -11,6 +11,7 @@ import musinsa.onlineshoppingmall.service.UpperProductCategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +36,11 @@ public class UpperProductCategoryController {
     @PostMapping("/api/upper-product-categories")
     public UpperProductCategoryItem save(@Valid @RequestBody UpperProductCategoryForm form) {
         return upperProductCategoryService.saveCategory(form.getName());
+    }
+
+    @PatchMapping("/api/upper-product-categories/{id}")
+    public UpperProductCategoryItem update(@PathVariable Long id, @Valid @RequestBody UpperProductCategoryForm form) {
+        return upperProductCategoryService.updateCategory(id, form.getName());
     }
 
     @DeleteMapping("/api/upper-product-categories/{id}")

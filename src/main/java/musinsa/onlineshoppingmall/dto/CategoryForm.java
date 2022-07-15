@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductCategoryForm {
+public class CategoryForm {
 
     @NotBlank
     private String name;

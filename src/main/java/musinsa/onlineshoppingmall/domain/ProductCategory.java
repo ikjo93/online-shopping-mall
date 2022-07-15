@@ -29,8 +29,23 @@ public class ProductCategory extends BaseTimeEntity {
     private Long id;
 
     @OneToMany(mappedBy = "productCategory")
-    private List<SubProductCategory> subItemCategories = new ArrayList<>();
+    private List<SubProductCategory> subProductCategories = new ArrayList<>();
 
     private String name;
 
+    public void validateDuplicateName(String name) {
+        if (this.name.equals(name)) {
+            throw new IllegalStateException("상위 카테고리와 동일한 이름일 수 없습니다.");
+        }
+
+        validateNameOfSubProductCategories(name);
+    }
+
+    private void validateNameOfSubProductCategories(String name) {
+        subProductCategories.stream()
+            .filter(subProductCategory -> subProductCategory.hasSameName(name))
+            .findFirst().ifPresent(m -> {
+                throw new IllegalStateException("이미 존재하는 하위 카테고리입니다.");
+            });
+    }
 }

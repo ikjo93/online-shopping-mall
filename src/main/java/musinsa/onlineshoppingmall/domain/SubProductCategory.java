@@ -32,4 +32,16 @@ public class SubProductCategory extends BaseTimeEntity {
 
     private String name;
 
+    private SubProductCategory(ProductCategory productCategory, String name) {
+        this.productCategory = productCategory;
+        this.name = name;
+    }
+
+    public static SubProductCategory of(ProductCategory productCategory, String name) {
+        return new SubProductCategory(productCategory, name);
+    }
+
+    public boolean hasSameName(String name) {
+        return this.name.equals(name);
+    }
 }

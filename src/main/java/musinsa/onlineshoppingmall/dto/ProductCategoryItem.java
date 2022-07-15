@@ -22,7 +22,7 @@ public class ProductCategoryItem {
     }
 
     private static List<SubProductCategoryItem> getSubCategories(ProductCategory productCategory) {
-        List<SubProductCategory> subCategories = productCategory.getSubItemCategories();
+        List<SubProductCategory> subCategories = productCategory.getSubProductCategories();
         if (subCategories == null) {
             return new ArrayList<>();
         }

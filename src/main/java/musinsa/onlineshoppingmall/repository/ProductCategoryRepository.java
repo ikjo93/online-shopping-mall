@@ -9,10 +9,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProductCategoryRepository extends JpaRepository<ProductCategory, Long> {
 
-    @Query("select distinct pc from ProductCategory pc left join fetch pc.subItemCategories where pc.id = :id")
+    @Query("select distinct pc from ProductCategory pc left join fetch pc.subProductCategories where pc.id = :id")
     Optional<ProductCategory> findAllCategoriesById(@Param("id") Long id);
 
-    @Query("select distinct pc from ProductCategory pc left join fetch pc.subItemCategories")
+    @Query("select distinct pc from ProductCategory pc left join fetch pc.subProductCategories")
     List<ProductCategory> findAllCategories();
 
     ProductCategory findByName(String name);

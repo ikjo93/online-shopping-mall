@@ -26,7 +26,7 @@ public class ProductCategoryService {
             throw new IllegalStateException("존재하는 상품 카테고리가 없습니다.");
         });
 
-        List<SubProductCategoryItem> categoryItems = productCategory.getSubItemCategories()
+        List<SubProductCategoryItem> categoryItems = productCategory.getSubProductCategories()
             .stream()
             .map(SubProductCategoryItem::from)
             .collect(Collectors.toList());

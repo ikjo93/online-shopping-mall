@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import musinsa.onlineshoppingmall.domain.ProductCategory;
@@ -37,7 +38,7 @@ class SubProductCategoryServiceTest {
         // given
         ProductCategory productCategory = ProductCategory.builder()
             .id(1L)
-            .subProductCategories(List.of())
+            .subProductCategories(new ArrayList<>())
             .name("신발")
             .build();
 

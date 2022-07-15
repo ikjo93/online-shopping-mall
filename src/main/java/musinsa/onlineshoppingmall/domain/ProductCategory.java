@@ -28,6 +28,7 @@ public class ProductCategory extends BaseTimeEntity {
     @Column(name = "product_category_id")
     private Long id;
 
+    @Builder.Default
     @OneToMany(mappedBy = "parentCategory")
     private List<SubProductCategory> subProductCategories = new ArrayList<>();
 

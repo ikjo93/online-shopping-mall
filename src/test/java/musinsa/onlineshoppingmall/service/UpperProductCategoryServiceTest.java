@@ -15,9 +15,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-@DisplayName("ProductCategoryService 단위 테스트")
+@DisplayName("UpperProductCategoryService 단위 테스트")
 @ExtendWith(MockitoExtension.class)
-class UpperUpperProductCategoryServiceTest {
+class UpperProductCategoryServiceTest {
 
     @InjectMocks
     private UpperProductCategoryService upperProductCategoryService;

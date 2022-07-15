@@ -16,7 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "product_category")
+@Table(name = "upper_product_category")
 @Getter
 @Builder
 @AllArgsConstructor
@@ -25,7 +25,7 @@ public class UpperProductCategory extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_category_id")
+    @Column(name = "upper_product_category_id")
     private Long id;
 
     @Builder.Default

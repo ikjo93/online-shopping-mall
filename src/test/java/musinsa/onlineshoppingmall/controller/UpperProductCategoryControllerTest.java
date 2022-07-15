@@ -17,10 +17,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-@DisplayName("ProductCategoryController 단위 테스트")
+@DisplayName("UpperProductCategoryController 단위 테스트")
 @WebMvcTest(UpperProductCategoryController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-class UpperUpperProductCategoryControllerTest {
+class UpperProductCategoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -46,7 +46,7 @@ class UpperUpperProductCategoryControllerTest {
 
         // when
         ResultActions resultActions = mockMvc.perform(
-            post("/api/product-categories")
+            post("/api/upper-product-categories")
                 .content(requestBody)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
@@ -75,7 +75,7 @@ class UpperUpperProductCategoryControllerTest {
         for (String requestBody : requestBodies) {
             // when
             ResultActions resultActions = mockMvc.perform(
-                post("/api/product-categories")
+                post("/api/upper-product-categories")
                     .content(requestBody)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)

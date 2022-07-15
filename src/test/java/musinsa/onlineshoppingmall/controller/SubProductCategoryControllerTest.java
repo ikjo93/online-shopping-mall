@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.ResultActions;
 @DisplayName("SubProductCategoryController 단위 테스트")
 @WebMvcTest(SubProductCategoryController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-public class SubUpperUpperProductCategoryControllerTest {
+public class SubProductCategoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

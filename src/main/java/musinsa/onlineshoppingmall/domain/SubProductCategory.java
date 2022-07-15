@@ -30,7 +30,7 @@ public class SubProductCategory extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_category_id")
+    @JoinColumn(name = "upper_product_category_id")
     @NotNull
     private UpperProductCategory parentCategory;
 

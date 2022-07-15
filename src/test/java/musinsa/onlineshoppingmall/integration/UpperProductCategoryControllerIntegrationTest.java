@@ -1,11 +1,9 @@
 package musinsa.onlineshoppingmall.integration;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import musinsa.onlineshoppingmall.dto.UpperProductCategoryItem;
-import musinsa.onlineshoppingmall.service.UpperProductCategoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,32 +14,26 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
-@DisplayName("SubProductCategoryControllerIntegrationTest 통합테스트")
+@DisplayName("UpperProductCategoryController 통합테스트")
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class SubUpperUpperProductCategoryControllerIntegrationTest {
+public class UpperProductCategoryControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private UpperProductCategoryService upperProductCategoryService;
-
     @Test
-    @DisplayName("신규 하위 상품 카테고리를 등록할 수 있다.")
-    void 신규_하위_상품_카테고리_등록() throws Exception {
+    @DisplayName("신규 상품 카테고리를 등록할 수 있다.")
+    void 신규_상품_카테고리_등록() throws Exception {
         // given
-        UpperProductCategoryItem upperProductCategoryItem = upperProductCategoryService.saveCategory("신발");
-
         String requestBody = "{\n"
-            + "    \"parentCategoryId\" : " + upperProductCategoryItem.getId() + ",\n"
-            + "    \"name\" : \"스니커즈\"\n"
+            + "    \"name\" : \"모자\"\n"
             + "}";
 
         // when
         ResultActions resultActions = mockMvc.perform(
-            post("/api/sub-product-categories")
+            post("/api/upper-product-categories")
                 .content(requestBody)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
@@ -49,6 +41,6 @@ public class SubUpperUpperProductCategoryControllerIntegrationTest {
 
         // then
         resultActions.andExpect(status().isOk())
-            .andExpect(jsonPath("$..['name']").value("스니커즈"));
+            .andExpect(jsonPath("$..['name']").value("모자"));
     }
 }

@@ -17,8 +17,8 @@ public class SubProductCategoryService {
     private final SubProductCategoryRepository subProductCategoryRepository;
     private final UpperProductCategoryRepository upperProductCategoryRepository;
 
-    public SubProductCategoryItem saveCategory(Long productCategoryId, String name) {
-        UpperProductCategory parentCategory = getProductCategoryByIdOrThrow(productCategoryId);
+    public SubProductCategoryItem saveCategory(Long upperProductCategoryId, String name) {
+        UpperProductCategory parentCategory = getProductCategoryByIdOrThrow(upperProductCategoryId);
         parentCategory.validateDuplicateName(name);
 
         SubProductCategory subProductCategory = SubProductCategory.builder()

@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-@DisplayName("ProductCategoryRepository 단위 테스트")
+@DisplayName("UpperProductCategoryRepository 단위 테스트")
 @DataJpaTest
 @AutoConfigureTestEntityManager
-class UpperUpperProductCategoryRepositoryTest {
+class UpperProductCategoryRepositoryTest {
 
     @Autowired
     private UpperProductCategoryRepository upperProductCategoryRepository;

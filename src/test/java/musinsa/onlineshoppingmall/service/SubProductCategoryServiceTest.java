@@ -21,7 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @DisplayName("SubProductCategoryService 단위 테스트")
 @ExtendWith(MockitoExtension.class)
-class SubUpperUpperProductCategoryServiceTest {
+class SubProductCategoryServiceTest {
 
     @Mock
     private UpperProductCategoryRepository upperProductCategoryRepository;
@@ -47,8 +47,7 @@ class SubUpperUpperProductCategoryServiceTest {
             .name("스니커즈")
             .build();
 
-        given(upperProductCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(
-            upperProductCategory));
+        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
         given(subProductCategoryRepository.save(any(SubProductCategory.class))).willReturn(subProductCategory);
 
         // when
@@ -63,7 +62,7 @@ class SubUpperUpperProductCategoryServiceTest {
     @DisplayName("새로운 하위 상품 카테고리 등록 시 상위 상품 카테고리가 없으면 예외를 발생한다.")
     void 상위_카테고리_비식별_예외() {
         // given
-        given(upperProductCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(null));
+        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(null));
 
         // when, then
         assertThatThrownBy(() -> subProductCategoryService.saveCategory(1L, "스니커즈"))
@@ -80,7 +79,7 @@ class SubUpperUpperProductCategoryServiceTest {
             .name("신발")
             .build();
 
-        given(upperProductCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(
+        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(
             upperProductCategory));
 
         // when, then
@@ -104,7 +103,7 @@ class SubUpperUpperProductCategoryServiceTest {
             .name("신발")
             .build();
 
-        given(upperProductCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(
+        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(
             upperProductCategory));
 
         // when, then

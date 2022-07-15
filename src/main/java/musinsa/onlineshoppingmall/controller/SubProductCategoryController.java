@@ -21,7 +21,7 @@ public class SubProductCategoryController {
     private final SubProductCategoryService subProductCategoryService;
 
     @PostMapping("/api/sub-product-categories")
-    public SubProductCategoryItem create(@Valid @RequestBody SubProductCategoryForm form) {
+    public SubProductCategoryItem save(@Valid @RequestBody SubProductCategoryForm form) {
         return subProductCategoryService.saveCategory(form.getParentCategoryId(), form.getName());
     }
 

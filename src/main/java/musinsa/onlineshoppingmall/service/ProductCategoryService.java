@@ -46,9 +46,7 @@ public class ProductCategoryService {
     @Transactional
     public ProductCategoryItem saveCategory(ProductCategoryForm form) {
         validateDuplicateCategory(form.getName());
-        ProductCategory productCategory = ProductCategory.builder()
-            .name(form.getName())
-            .build();
+        ProductCategory productCategory = ProductCategory.of(form.getName());
         ProductCategory savedProductCategory = productCategoryRepository.save(productCategory);
 
         return ProductCategoryItem.from(savedProductCategory);

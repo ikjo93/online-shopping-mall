@@ -4,7 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import musinsa.onlineshoppingmall.service.ProductCategoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class ProductCategoryControllerIntegrationTest {
     void 신규_상품_카테고리_등록() throws Exception {
         // given
         String requestBody = "{\n"
-            + "    \"name\" : \"신발\"\n"
+            + "    \"name\" : \"모자\"\n"
             + "}";
 
         // when
@@ -42,8 +41,6 @@ public class ProductCategoryControllerIntegrationTest {
 
         // then
         resultActions.andExpect(status().isOk())
-            .andExpect(jsonPath("$..['id']").value(1))
-            .andExpect(jsonPath("$..['name']").value("신발"));
+            .andExpect(jsonPath("$..['name']").value("모자"));
     }
-
 }

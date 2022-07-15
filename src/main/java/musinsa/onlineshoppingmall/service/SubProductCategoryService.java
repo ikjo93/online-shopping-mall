@@ -46,7 +46,7 @@ public class SubProductCategoryService {
     }
 
     private ProductCategory getProductCategoryByIdOrThrow(Long id) {
-        return productCategoryRepository.findAllCategoriesById(id).orElseThrow(() -> {
+        return productCategoryRepository.findById(id).orElseThrow(() -> {
             throw new IllegalStateException("존재하는 상위 상품 카테고리가 없습니다.");
         });
     }

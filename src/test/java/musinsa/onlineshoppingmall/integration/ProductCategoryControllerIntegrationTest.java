@@ -24,9 +24,6 @@ public class ProductCategoryControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ProductCategoryService productCategoryService;
-
     @Test
     @DisplayName("신규 상품 카테고리를 등록할 수 있다.")
     void 신규_상품_카테고리_등록() throws Exception {

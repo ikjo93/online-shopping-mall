@@ -37,11 +37,7 @@ class ProductCategoryControllerTest {
         String requestBody = "{\n"
             + "    \"name\" : \"신발\"\n"
             + "}";
-        ProductCategoryItem responseBody = ProductCategoryItem.from(ProductCategory.builder()
-            .id(1l)
-            .name("신발")
-            .build()
-        );
+        ProductCategoryItem responseBody = ProductCategoryItem.from(ProductCategory.of(1L, "신발"));
         given(productCategoryService.saveCategory(any(ProductCategoryForm.class))).willReturn(responseBody);
 
         // when
@@ -61,7 +57,7 @@ class ProductCategoryControllerTest {
     @Test
     @DisplayName("신규 상품 카테고리 등록 요청 시 데이터가 올바른 형식인지 검증한다.")
     void 신규_상품_카테고리_등록_요청_데이터_검증() throws Exception {
-        // given
+        // given (빈값, 공백문자, 널값 등 잘못된 형식의 데이터)
         String[] requestBodies = {"{\n"
             + "    \"name\" : \"\"\n"
             + "}", "{\n"
@@ -86,7 +82,5 @@ class ProductCategoryControllerTest {
                 .andExpect(jsonPath("$..['status']").value("BAD_REQUEST"))
                 .andExpect(jsonPath("$..['message']").value("잘못된 형식의 데이터입니다."));
         }
-
     }
-
 }

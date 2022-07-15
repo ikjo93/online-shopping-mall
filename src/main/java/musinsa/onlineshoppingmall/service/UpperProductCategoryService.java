@@ -39,12 +39,6 @@ public class UpperProductCategoryService {
         return new UpperProductCategoryItems(totalCategories);
     }
 
-    public UpperProductCategory getProductCategoryByIdOrThrow(Long id) {
-        return upperProductCategoryRepository.findById(id).orElseThrow(() -> {
-            throw new IllegalStateException("존재하는 상위 상품 카테고리가 없습니다.");
-        });
-    }
-
     @Transactional
     public UpperProductCategoryItem saveCategory(String name) {
         validateDuplicateCategory(name);
@@ -67,7 +61,6 @@ public class UpperProductCategoryService {
 
     @Transactional
     public void deleteCategory(Long id) {
-        getProductCategoryByIdOrThrow(id);
         upperProductCategoryRepository.deleteById(id);
     }
 }

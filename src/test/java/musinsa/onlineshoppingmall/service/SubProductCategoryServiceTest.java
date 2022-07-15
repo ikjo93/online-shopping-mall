@@ -23,14 +23,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class SubProductCategoryServiceTest {
 
-    @Mock
-    private UpperProductCategoryRepository upperProductCategoryRepository;
-
     @InjectMocks
     private SubProductCategoryService subProductCategoryService;
 
     @Mock
     private SubProductCategoryRepository subProductCategoryRepository;
+
+    @Mock
+    private UpperProductCategoryRepository upperProductCategoryRepository;
 
     @Test
     @DisplayName("새로운 하위 상품 카테고리를 등록할 수 있다.")
@@ -79,8 +79,7 @@ class SubProductCategoryServiceTest {
             .name("신발")
             .build();
 
-        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(
-            upperProductCategory));
+        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
 
         // when, then
         assertThatThrownBy(() -> subProductCategoryService.saveCategory(1L, "신발"))
@@ -103,8 +102,7 @@ class SubProductCategoryServiceTest {
             .name("신발")
             .build();
 
-        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(
-            upperProductCategory));
+        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
 
         // when, then
         assertThatThrownBy(() -> subProductCategoryService.saveCategory(1L, "스니커즈"))

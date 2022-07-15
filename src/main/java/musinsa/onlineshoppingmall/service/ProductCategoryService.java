@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import musinsa.onlineshoppingmall.domain.ProductCategory;
-import musinsa.onlineshoppingmall.dto.CategoryForm;
+import musinsa.onlineshoppingmall.dto.ProductCategoryForm;
 import musinsa.onlineshoppingmall.dto.ProductCategoryItem;
 import musinsa.onlineshoppingmall.dto.ProductCategoryItems;
 import musinsa.onlineshoppingmall.dto.SubProductCategoryItem;
@@ -44,7 +44,7 @@ public class ProductCategoryService {
     }
 
     @Transactional
-    public ProductCategoryItem saveCategory(CategoryForm form) {
+    public ProductCategoryItem saveCategory(ProductCategoryForm form) {
         validateDuplicateCategory(form.getName());
         ProductCategory productCategory = ProductCategory.builder()
             .name(form.getName())

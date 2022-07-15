@@ -3,7 +3,7 @@ package musinsa.onlineshoppingmall.controller;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import musinsa.onlineshoppingmall.dto.ProductCategoryItem;
-import musinsa.onlineshoppingmall.dto.CategoryForm;
+import musinsa.onlineshoppingmall.dto.ProductCategoryForm;
 import musinsa.onlineshoppingmall.dto.ProductCategoryItems;
 import musinsa.onlineshoppingmall.dto.ResponseMessage;
 import musinsa.onlineshoppingmall.dto.SubProductCategoryItems;
@@ -34,7 +34,7 @@ public class ProductCategoryController {
     }
 
     @PostMapping("/api/product-categories")
-    public ProductCategoryItem create(@Valid @RequestBody CategoryForm form) {
+    public ProductCategoryItem create(@Valid @RequestBody ProductCategoryForm form) {
         return productCategoryService.saveCategory(form);
     }
 

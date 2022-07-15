@@ -38,10 +38,4 @@ public class ProductCategoryController {
         return productCategoryService.saveCategory(form);
     }
 
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<ResponseMessage> handleIllegalStateException(IllegalStateException exception) {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
-            .body(ResponseMessage.create(HttpStatus.CONFLICT, exception.getMessage()));
-    }
-
 }

@@ -27,4 +27,10 @@ public class GlobalExceptionHandler {
             .body(ResponseMessage.create(HttpStatus.BAD_REQUEST, "잘못된 형식의 데이터입니다."));
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ResponseMessage> handleIllegalStateException(IllegalStateException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+            .body(ResponseMessage.create(HttpStatus.CONFLICT, exception.getMessage()));
+    }
+
 }

@@ -15,26 +15,26 @@ import org.springframework.transaction.annotation.Transactional;
 public class SubProductCategoryService {
 
     private final SubProductCategoryRepository subProductCategoryRepository;
-    private final UpperProductCategoryRepository upperProductCategoryRepository;
+    private final UpperProductCategoryService upperProductCategoryService;
 
     public SubProductCategoryItem saveCategory(Long upperProductCategoryId, String name) {
-        UpperProductCategory parentCategory = getProductCategoryByIdOrThrow(upperProductCategoryId);
-        parentCategory.validateDuplicateName(name);
+        UpperProductCategory upperProductCategory = upperProductCategoryService.getProductCategoryByIdOrThrow(upperProductCategoryId);
+        upperProductCategory.validateDuplicateName(name);
 
         SubProductCategory subProductCategory = SubProductCategory.builder()
-            .parentCategory(parentCategory)
+            .upperProductCategory(upperProductCategory)
             .name(name)
             .build();
 
         SubProductCategory savedSubProductCategory = subProductCategoryRepository.save(subProductCategory);
-        parentCategory.addSubProductCategory(savedSubProductCategory);
+        upperProductCategory.addSubProductCategory(savedSubProductCategory);
 
         return SubProductCategoryItem.from(savedSubProductCategory);
     }
 
-    public SubProductCategoryItem updateCategory(Long id, Long productCategoryId, String name) {
+    public SubProductCategoryItem updateCategory(Long id, Long upperProductCategoryId, String name) {
         SubProductCategory subProductCategory = getSubProductCategoryByIdOrThrow(id);
-        UpperProductCategory parentCategory = getProductCategoryByIdOrThrow(productCategoryId);
+        UpperProductCategory parentCategory = upperProductCategoryService.getProductCategoryByIdOrThrow(upperProductCategoryId);
         subProductCategory.updateInfo(parentCategory, name);
 
         return SubProductCategoryItem.from(subProductCategory);
@@ -43,12 +43,6 @@ public class SubProductCategoryService {
     public void deleteCategory(Long id) {
         getSubProductCategoryByIdOrThrow(id);
         subProductCategoryRepository.deleteById(id);
-    }
-
-    private UpperProductCategory getProductCategoryByIdOrThrow(Long id) {
-        return upperProductCategoryRepository.findById(id).orElseThrow(() -> {
-            throw new IllegalStateException("존재하는 상위 상품 카테고리가 없습니다.");
-        });
     }
 
     private SubProductCategory getSubProductCategoryByIdOrThrow(Long id) {

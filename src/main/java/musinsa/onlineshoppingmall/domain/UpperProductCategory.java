@@ -2,18 +2,21 @@ package musinsa.onlineshoppingmall.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import musinsa.onlineshoppingmall.dto.SubProductCategoryItem;
 
 @Entity
 @Table(name = "upper_product_category")
@@ -29,7 +32,7 @@ public class UpperProductCategory extends BaseTimeEntity {
     private Long id;
 
     @Builder.Default
-    @OneToMany(mappedBy = "parentCategory")
+    @OneToMany(mappedBy = "upperProductCategory")
     private List<SubProductCategory> subProductCategories = new ArrayList<>();
 
     private String name;
@@ -37,6 +40,13 @@ public class UpperProductCategory extends BaseTimeEntity {
     /**
      * 비지니스 로직
      */
+    public List<SubProductCategoryItem> subProductCategoryItems() {
+        return subProductCategories
+            .stream()
+            .map(SubProductCategoryItem::from)
+            .collect(Collectors.toList());
+    }
+
     public void validateDuplicateName(String name) {
         if (this.name.equals(name)) {
             throw new IllegalStateException("하위 카테고리는 상위 카테고리와 동일한 이름일 수 없습니다.");
@@ -55,5 +65,10 @@ public class UpperProductCategory extends BaseTimeEntity {
 
     public void addSubProductCategory(SubProductCategory subProductCategory) {
         subProductCategories.add(subProductCategory);
+    }
+
+    @PreRemove
+    public void removeSubProductCategory() {
+        subProductCategories.forEach(subProductCategory -> subProductCategory.initUpperProductCategory());
     }
 }

@@ -2,11 +2,14 @@ package musinsa.onlineshoppingmall.controller;
 
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import musinsa.onlineshoppingmall.dto.ResponseMessage;
 import musinsa.onlineshoppingmall.dto.UpperProductCategoryItem;
 import musinsa.onlineshoppingmall.dto.UpperProductCategoryForm;
 import musinsa.onlineshoppingmall.dto.UpperProductCategoryItems;
 import musinsa.onlineshoppingmall.dto.SubProductCategoryItems;
 import musinsa.onlineshoppingmall.service.UpperProductCategoryService;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +35,12 @@ public class UpperProductCategoryController {
     @PostMapping("/api/upper-product-categories")
     public UpperProductCategoryItem save(@Valid @RequestBody UpperProductCategoryForm form) {
         return upperProductCategoryService.saveCategory(form.getName());
+    }
+
+    @DeleteMapping("/api/upper-product-categories/{id}")
+    public ResponseMessage delete(@PathVariable Long id) {
+        upperProductCategoryService.deleteCategory(id);
+        return ResponseMessage.create(HttpStatus.OK, "정상적으로 삭제 처리되었습니다.");
     }
 
 }

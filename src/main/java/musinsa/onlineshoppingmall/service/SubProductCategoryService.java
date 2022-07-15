@@ -39,6 +39,13 @@ public class SubProductCategoryService {
     }
 
     public void deleteCategory(Long id) {
+        validateExistenceOfCategory(id);
         subProductCategoryRepository.deleteById(id);
+    }
+
+    private void validateExistenceOfCategory(Long id) {
+        subProductCategoryRepository.findById(id).orElseThrow(() -> {
+            throw new IllegalStateException("존재하는 하위 상품 카테고리가 없습니다.");
+        });
     }
 }

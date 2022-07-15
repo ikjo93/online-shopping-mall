@@ -11,12 +11,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "sub_product_category")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SubProductCategory extends BaseTimeEntity {
 
@@ -28,18 +32,9 @@ public class SubProductCategory extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_category_id")
     @NotNull
-    private ProductCategory productCategory;
+    private ProductCategory parentCategory;
 
     private String name;
-
-    private SubProductCategory(ProductCategory productCategory, String name) {
-        this.productCategory = productCategory;
-        this.name = name;
-    }
-
-    public static SubProductCategory of(ProductCategory productCategory, String name) {
-        return new SubProductCategory(productCategory, name);
-    }
 
     public boolean hasSameName(String name) {
         return this.name.equals(name);

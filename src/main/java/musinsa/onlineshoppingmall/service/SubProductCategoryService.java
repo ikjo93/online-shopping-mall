@@ -20,7 +20,12 @@ public class SubProductCategoryService {
     public SubProductCategoryItem saveCategory(Long parentCategoryId, String name) {
         ProductCategory parentCategory = getParentCategory(parentCategoryId);
         parentCategory.validateDuplicateName(name);
-        SubProductCategory subProductCategory = SubProductCategory.of(parentCategory, name);
+
+        SubProductCategory subProductCategory = SubProductCategory.builder()
+            .parentCategory(parentCategory)
+            .name(name)
+            .build();
+
         SubProductCategory savedSubProductCategory = subProductCategoryRepository.save(subProductCategory);
 
         return SubProductCategoryItem.from(savedSubProductCategory);

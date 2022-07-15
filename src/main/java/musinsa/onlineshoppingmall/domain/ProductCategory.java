@@ -10,12 +10,16 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "product_category")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductCategory extends BaseTimeEntity {
 
@@ -24,31 +28,14 @@ public class ProductCategory extends BaseTimeEntity {
     @Column(name = "product_category_id")
     private Long id;
 
-    @OneToMany(mappedBy = "productCategory")
+    @OneToMany(mappedBy = "parentCategory")
     private List<SubProductCategory> subProductCategories = new ArrayList<>();
 
     private String name;
 
-    private ProductCategory(String name) {
-        this.name = name;
-    }
-
-    private ProductCategory(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public static ProductCategory of(String name) {
-        return new ProductCategory(name);
-    }
-
-    public static ProductCategory of(Long id, String name) {
-        return new ProductCategory(id, name);
-    }
-
     public void validateDuplicateName(String name) {
         if (this.name.equals(name)) {
-            throw new IllegalStateException("상위 카테고리와 동일한 이름일 수 없습니다.");
+            throw new IllegalStateException("하위 카테고리는 상위 카테고리와 동일한 이름일 수 없습니다.");
         }
 
         validateNameOfSubProductCategories(name);
@@ -58,7 +45,7 @@ public class ProductCategory extends BaseTimeEntity {
         subProductCategories.stream()
             .filter(subProductCategory -> subProductCategory.hasSameName(name))
             .findFirst().ifPresent(m -> {
-                throw new IllegalStateException("이미 존재하는 하위 카테고리입니다.");
+                throw new IllegalStateException("이미 존재하는 하위 카테고리 이름입니다.");
             });
     }
 }

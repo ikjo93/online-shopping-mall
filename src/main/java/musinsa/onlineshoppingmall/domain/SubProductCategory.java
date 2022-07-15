@@ -32,7 +32,7 @@ public class SubProductCategory extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_category_id")
     @NotNull
-    private ProductCategory parentCategory;
+    private UpperProductCategory parentCategory;
 
     private String name;
 
@@ -43,7 +43,7 @@ public class SubProductCategory extends BaseTimeEntity {
         return this.name.equals(name);
     }
 
-    public void updateInfo(ProductCategory parentCategory, String name) {
+    public void updateInfo(UpperProductCategory parentCategory, String name) {
         this.parentCategory.getSubProductCategories().remove(this);
         this.parentCategory = parentCategory;
         this.parentCategory.addSubProductCategory(this);

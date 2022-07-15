@@ -7,10 +7,10 @@ import static org.mockito.BDDMockito.given;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import musinsa.onlineshoppingmall.domain.ProductCategory;
+import musinsa.onlineshoppingmall.domain.UpperProductCategory;
 import musinsa.onlineshoppingmall.domain.SubProductCategory;
 import musinsa.onlineshoppingmall.dto.SubProductCategoryItem;
-import musinsa.onlineshoppingmall.repository.ProductCategoryRepository;
+import musinsa.onlineshoppingmall.repository.UpperProductCategoryRepository;
 import musinsa.onlineshoppingmall.repository.SubProductCategoryRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,10 +21,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @DisplayName("SubProductCategoryService 단위 테스트")
 @ExtendWith(MockitoExtension.class)
-class SubProductCategoryServiceTest {
+class SubUpperUpperProductCategoryServiceTest {
 
     @Mock
-    private ProductCategoryRepository productCategoryRepository;
+    private UpperProductCategoryRepository upperProductCategoryRepository;
 
     @InjectMocks
     private SubProductCategoryService subProductCategoryService;
@@ -36,7 +36,7 @@ class SubProductCategoryServiceTest {
     @DisplayName("새로운 하위 상품 카테고리를 등록할 수 있다.")
     void 하위_상품_카테고리_신규_등록() {
         // given
-        ProductCategory productCategory = ProductCategory.builder()
+        UpperProductCategory upperProductCategory = UpperProductCategory.builder()
             .id(1L)
             .subProductCategories(new ArrayList<>())
             .name("신발")
@@ -47,7 +47,8 @@ class SubProductCategoryServiceTest {
             .name("스니커즈")
             .build();
 
-        given(productCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(productCategory));
+        given(upperProductCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(
+            upperProductCategory));
         given(subProductCategoryRepository.save(any(SubProductCategory.class))).willReturn(subProductCategory);
 
         // when
@@ -62,7 +63,7 @@ class SubProductCategoryServiceTest {
     @DisplayName("새로운 하위 상품 카테고리 등록 시 상위 상품 카테고리가 없으면 예외를 발생한다.")
     void 상위_카테고리_비식별_예외() {
         // given
-        given(productCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(null));
+        given(upperProductCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(null));
 
         // when, then
         assertThatThrownBy(() -> subProductCategoryService.saveCategory(1L, "스니커즈"))
@@ -74,12 +75,13 @@ class SubProductCategoryServiceTest {
     @DisplayName("새로운 하위 상품 카테고리 등록 시 상위 카테고리와 이름이 중복될 경우 예외를 발생한다.")
     void 상위_카테고리명_중복_예외() {
         // given
-        ProductCategory productCategory = ProductCategory.builder()
+        UpperProductCategory upperProductCategory = UpperProductCategory.builder()
             .id(1L)
             .name("신발")
             .build();
 
-        given(productCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(productCategory));
+        given(upperProductCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(
+            upperProductCategory));
 
         // when, then
         assertThatThrownBy(() -> subProductCategoryService.saveCategory(1L, "신발"))
@@ -96,13 +98,14 @@ class SubProductCategoryServiceTest {
             .name("스니커즈")
             .build();
 
-        ProductCategory productCategory = ProductCategory.builder()
+        UpperProductCategory upperProductCategory = UpperProductCategory.builder()
             .id(1L)
             .subProductCategories(List.of(subProductCategory))
             .name("신발")
             .build();
 
-        given(productCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(productCategory));
+        given(upperProductCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(
+            upperProductCategory));
 
         // when, then
         assertThatThrownBy(() -> subProductCategoryService.saveCategory(1L, "스니커즈"))

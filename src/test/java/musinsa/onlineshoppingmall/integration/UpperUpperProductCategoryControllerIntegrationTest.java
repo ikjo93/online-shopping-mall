@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class ProductCategoryControllerIntegrationTest {
+public class UpperUpperProductCategoryControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;

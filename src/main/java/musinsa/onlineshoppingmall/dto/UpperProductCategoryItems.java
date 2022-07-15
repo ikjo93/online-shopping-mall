@@ -6,8 +6,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ProductCategoryItems {
+public class UpperProductCategoryItems {
 
-    private final List<ProductCategoryItem> totalCategories;
+    private final List<UpperProductCategoryItem> totalCategories;
 
 }

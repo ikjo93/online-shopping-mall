@@ -4,8 +4,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import musinsa.onlineshoppingmall.dto.ProductCategoryItem;
-import musinsa.onlineshoppingmall.service.ProductCategoryService;
+import musinsa.onlineshoppingmall.dto.UpperProductCategoryItem;
+import musinsa.onlineshoppingmall.service.UpperProductCategoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +20,22 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class SubProductCategoryControllerIntegrationTest {
+public class SubUpperUpperProductCategoryControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private ProductCategoryService productCategoryService;
+    private UpperProductCategoryService upperProductCategoryService;
 
     @Test
     @DisplayName("신규 하위 상품 카테고리를 등록할 수 있다.")
     void 신규_하위_상품_카테고리_등록() throws Exception {
         // given
-        ProductCategoryItem productCategoryItem = productCategoryService.saveCategory("신발");
+        UpperProductCategoryItem upperProductCategoryItem = upperProductCategoryService.saveCategory("신발");
 
         String requestBody = "{\n"
-            + "    \"parentCategoryId\" : " + productCategoryItem.getId() + ",\n"
+            + "    \"parentCategoryId\" : " + upperProductCategoryItem.getId() + ",\n"
             + "    \"name\" : \"스니커즈\"\n"
             + "}";
 

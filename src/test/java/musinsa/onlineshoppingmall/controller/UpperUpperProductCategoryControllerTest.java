@@ -4,9 +4,9 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import musinsa.onlineshoppingmall.domain.ProductCategory;
-import musinsa.onlineshoppingmall.dto.ProductCategoryItem;
-import musinsa.onlineshoppingmall.service.ProductCategoryService;
+import musinsa.onlineshoppingmall.domain.UpperProductCategory;
+import musinsa.onlineshoppingmall.dto.UpperProductCategoryItem;
+import musinsa.onlineshoppingmall.service.UpperProductCategoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +18,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("ProductCategoryController 단위 테스트")
-@WebMvcTest(ProductCategoryController.class)
+@WebMvcTest(UpperProductCategoryController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-class ProductCategoryControllerTest {
+class UpperUpperProductCategoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private ProductCategoryService productCategoryService;
+    private UpperProductCategoryService upperProductCategoryService;
 
     @Test
     @DisplayName("신규 상품 카테고리 등록 요청을 처리할 수 있다.")
@@ -36,13 +36,13 @@ class ProductCategoryControllerTest {
             + "    \"name\" : \"신발\"\n"
             + "}";
 
-        ProductCategory productCategory = ProductCategory.builder()
+        UpperProductCategory upperProductCategory = UpperProductCategory.builder()
             .id(1L)
             .name("신발")
             .build();
 
-        ProductCategoryItem responseBody = ProductCategoryItem.from(productCategory);
-        given(productCategoryService.saveCategory("신발")).willReturn(responseBody);
+        UpperProductCategoryItem responseBody = UpperProductCategoryItem.from(upperProductCategory);
+        given(upperProductCategoryService.saveCategory("신발")).willReturn(responseBody);
 
         // when
         ResultActions resultActions = mockMvc.perform(

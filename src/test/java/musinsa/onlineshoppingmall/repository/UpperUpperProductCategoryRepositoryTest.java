@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Optional;
-import musinsa.onlineshoppingmall.domain.ProductCategory;
+import musinsa.onlineshoppingmall.domain.UpperProductCategory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,30 +15,30 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 @DisplayName("ProductCategoryRepository 단위 테스트")
 @DataJpaTest
 @AutoConfigureTestEntityManager
-class ProductCategoryRepositoryTest {
+class UpperUpperProductCategoryRepositoryTest {
 
     @Autowired
-    private ProductCategoryRepository productCategoryRepository;
+    private UpperProductCategoryRepository upperProductCategoryRepository;
 
-    private ProductCategory savedProductCategory;
+    private UpperProductCategory savedUpperProductCategory;
 
     @BeforeEach
     void setup() {
-        ProductCategory productCategory = ProductCategory.builder()
+        UpperProductCategory upperProductCategory = UpperProductCategory.builder()
             .name("신발")
             .build();
 
-        savedProductCategory = productCategoryRepository.save(productCategory);
+        savedUpperProductCategory = upperProductCategoryRepository.save(upperProductCategory);
     }
 
     @Test
     @DisplayName("상품 카테고리 식별자로 상품 카테고리 정보를 조회할 수 있다.")
     void 식별자별_상품_카테고리_정보_조회() {
         // given
-        Long id = savedProductCategory.getId();
+        Long id = savedUpperProductCategory.getId();
 
         // when
-        Optional<ProductCategory> findProductCategory = productCategoryRepository.findAllCategoriesById(id);
+        Optional<UpperProductCategory> findProductCategory = upperProductCategoryRepository.findAllCategoriesById(id);
 
         // then
         assertThat(findProductCategory.isPresent()).isTrue();
@@ -49,24 +49,24 @@ class ProductCategoryRepositoryTest {
     @DisplayName("전체 상품 카테고리 정보를 조회할 수 있다.")
     void 전체_상품_카테고리_정보_조회() {
         // given
-        ProductCategory topsCategory = ProductCategory.builder()
+        UpperProductCategory topsCategory = UpperProductCategory.builder()
             .name("상의")
             .build();
 
-        ProductCategory bottomsCategory = ProductCategory.builder()
+        UpperProductCategory bottomsCategory = UpperProductCategory.builder()
             .name("하의")
             .build();
 
-        ProductCategory hatCategory = ProductCategory.builder()
+        UpperProductCategory hatCategory = UpperProductCategory.builder()
             .name("모자")
             .build();
 
-        productCategoryRepository.save(topsCategory);
-        productCategoryRepository.save(bottomsCategory);
-        productCategoryRepository.save(hatCategory);
+        upperProductCategoryRepository.save(topsCategory);
+        upperProductCategoryRepository.save(bottomsCategory);
+        upperProductCategoryRepository.save(hatCategory);
 
         // when
-        List<ProductCategory> categories = productCategoryRepository.findAllCategories();
+        List<UpperProductCategory> categories = upperProductCategoryRepository.findAllCategories();
 
         // then
         assertThat(categories.size()).isEqualTo(4);
@@ -76,12 +76,12 @@ class ProductCategoryRepositoryTest {
     @DisplayName("상품 카테고리 이름으로 상품 카테고리 정보를 조회할 수 있다.")
     void 이름별_상품_카테고리_정보_조회() {
         // given
-        String name = savedProductCategory.getName();
+        String name = savedUpperProductCategory.getName();
 
         // when
-        ProductCategory findProductCategory = productCategoryRepository.findByName(name);
+        UpperProductCategory findUpperProductCategory = upperProductCategoryRepository.findByName(name);
 
         // then
-        assertThat(findProductCategory).isEqualTo(savedProductCategory);
+        assertThat(findUpperProductCategory).isEqualTo(savedUpperProductCategory);
     }
 }

@@ -22,7 +22,7 @@ public class ProductCategoryService {
     private final ProductCategoryRepository productCategoryRepository;
 
     public SubProductCategoryItems getSubCategoriesById(Long id) {
-        ProductCategory productCategory = productCategoryRepository.findById(id).orElseThrow(() -> {
+        ProductCategory productCategory = productCategoryRepository.findAllCategoriesById(id).orElseThrow(() -> {
             throw new IllegalStateException("존재하는 상품 카테고리가 없습니다.");
         });
 
@@ -35,7 +35,7 @@ public class ProductCategoryService {
     }
 
     public ProductCategoryItems getTotalCategories() {
-        List<ProductCategoryItem> totalCategories = productCategoryRepository.findAll()
+        List<ProductCategoryItem> totalCategories = productCategoryRepository.findAllCategories()
             .stream()
             .map(ProductCategoryItem::from)
             .collect(Collectors.toList());

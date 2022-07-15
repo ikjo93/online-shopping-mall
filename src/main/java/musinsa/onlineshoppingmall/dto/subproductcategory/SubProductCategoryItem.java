@@ -1,4 +1,4 @@
-package musinsa.onlineshoppingmall.dto;
+package musinsa.onlineshoppingmall.dto.subproductcategory;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

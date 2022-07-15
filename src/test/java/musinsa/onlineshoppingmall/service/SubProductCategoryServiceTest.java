@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import musinsa.onlineshoppingmall.domain.UpperProductCategory;
 import musinsa.onlineshoppingmall.domain.SubProductCategory;
-import musinsa.onlineshoppingmall.dto.SubProductCategoryItem;
+import musinsa.onlineshoppingmall.dto.subproductcategory.SubProductCategoryItem;
 import musinsa.onlineshoppingmall.repository.UpperProductCategoryRepository;
 import musinsa.onlineshoppingmall.repository.SubProductCategoryRepository;
 import org.junit.jupiter.api.DisplayName;

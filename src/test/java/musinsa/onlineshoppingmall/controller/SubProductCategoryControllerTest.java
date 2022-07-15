@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import musinsa.onlineshoppingmall.domain.SubProductCategory;
-import musinsa.onlineshoppingmall.dto.SubProductCategoryItem;
+import musinsa.onlineshoppingmall.dto.subproductcategory.SubProductCategoryItem;
 import musinsa.onlineshoppingmall.service.SubProductCategoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

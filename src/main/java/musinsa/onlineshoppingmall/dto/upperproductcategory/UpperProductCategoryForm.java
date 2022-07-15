@@ -1,4 +1,4 @@
-package musinsa.onlineshoppingmall.dto;
+package musinsa.onlineshoppingmall.dto.upperproductcategory;
 
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;

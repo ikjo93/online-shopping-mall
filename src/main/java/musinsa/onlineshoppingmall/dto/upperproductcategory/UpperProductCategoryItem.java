@@ -1,4 +1,4 @@
-package musinsa.onlineshoppingmall.dto;
+package musinsa.onlineshoppingmall.dto.upperproductcategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import musinsa.onlineshoppingmall.domain.UpperProductCategory;
 import musinsa.onlineshoppingmall.domain.SubProductCategory;
+import musinsa.onlineshoppingmall.dto.subproductcategory.SubProductCategoryItem;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

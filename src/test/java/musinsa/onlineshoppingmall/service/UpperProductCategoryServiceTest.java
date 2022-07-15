@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
 import musinsa.onlineshoppingmall.domain.UpperProductCategory;
-import musinsa.onlineshoppingmall.dto.UpperProductCategoryItem;
+import musinsa.onlineshoppingmall.dto.upperproductcategory.UpperProductCategoryItem;
 import musinsa.onlineshoppingmall.repository.UpperProductCategoryRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

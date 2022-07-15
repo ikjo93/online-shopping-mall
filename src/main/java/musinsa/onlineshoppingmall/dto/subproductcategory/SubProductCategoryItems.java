@@ -1,4 +1,4 @@
-package musinsa.onlineshoppingmall.dto;
+package musinsa.onlineshoppingmall.dto.subproductcategory;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

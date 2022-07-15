@@ -16,7 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import musinsa.onlineshoppingmall.dto.SubProductCategoryItem;
+import musinsa.onlineshoppingmall.dto.subproductcategory.SubProductCategoryItem;
 
 @Entity
 @Table(name = "upper_product_category")

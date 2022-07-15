@@ -3,7 +3,7 @@ package musinsa.onlineshoppingmall.service;
 import lombok.RequiredArgsConstructor;
 import musinsa.onlineshoppingmall.domain.UpperProductCategory;
 import musinsa.onlineshoppingmall.domain.SubProductCategory;
-import musinsa.onlineshoppingmall.dto.SubProductCategoryItem;
+import musinsa.onlineshoppingmall.dto.subproductcategory.SubProductCategoryItem;
 import musinsa.onlineshoppingmall.repository.SubProductCategoryRepository;
 import musinsa.onlineshoppingmall.repository.UpperProductCategoryRepository;
 import org.springframework.stereotype.Service;

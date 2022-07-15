@@ -35,7 +35,7 @@ public class ProductCategoryController {
 
     @PostMapping("/api/product-categories")
     public ProductCategoryItem create(@Valid @RequestBody ProductCategoryForm form) {
-        return productCategoryService.saveCategory(form);
+        return productCategoryService.saveCategory(form.getName());
     }
 
 }

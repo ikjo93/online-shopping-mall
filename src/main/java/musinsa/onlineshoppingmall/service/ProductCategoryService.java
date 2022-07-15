@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import musinsa.onlineshoppingmall.domain.ProductCategory;
-import musinsa.onlineshoppingmall.dto.ProductCategoryForm;
 import musinsa.onlineshoppingmall.dto.ProductCategoryItem;
 import musinsa.onlineshoppingmall.dto.ProductCategoryItems;
 import musinsa.onlineshoppingmall.dto.SubProductCategoryItem;
@@ -44,11 +43,11 @@ public class ProductCategoryService {
     }
 
     @Transactional
-    public ProductCategoryItem saveCategory(ProductCategoryForm form) {
-        validateDuplicateCategory(form.getName());
+    public ProductCategoryItem saveCategory(String name) {
+        validateDuplicateCategory(name);
 
         ProductCategory productCategory = ProductCategory.builder()
-            .name(form.getName())
+            .name(name)
             .build();
 
         ProductCategory savedProductCategory = productCategoryRepository.save(productCategory);

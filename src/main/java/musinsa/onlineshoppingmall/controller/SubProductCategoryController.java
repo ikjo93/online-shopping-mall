@@ -27,7 +27,7 @@ public class SubProductCategoryController {
 
     @PatchMapping("/api/sub-product-categories/{id}")
     public SubProductCategoryItem update(@PathVariable Long id, @Valid @RequestBody SubProductCategoryForm form) {
-        return subProductCategoryService.updateCategory(id, form.getUpperProductCategoryId(), form.getName());
+        return SubProductCategoryItem.from(subProductCategoryService.updateCategory(id, form.getUpperProductCategoryId(), form.getName()));
     }
 
     @DeleteMapping("/api/sub-product-categories/{id}")

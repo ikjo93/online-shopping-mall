@@ -39,12 +39,12 @@ public class SubProductCategoryService {
         });
     }
 
-    public SubProductCategoryItem updateCategory(Long subProductCategoryId, Long upperProductCategoryId, String name) {
+    public SubProductCategory updateCategory(Long subProductCategoryId, Long upperProductCategoryId, String name) {
         SubProductCategory subProductCategory = getSubProductCategoryByIdOrThrow(subProductCategoryId);
         UpperProductCategory upperProductCategory = getUpperProductCategoryByIdOrThrow(upperProductCategoryId);
         subProductCategory.updateInfo(upperProductCategory, name);
 
-        return SubProductCategoryItem.from(subProductCategory);
+        return subProductCategory;
     }
 
     public void deleteCategory(Long id) {

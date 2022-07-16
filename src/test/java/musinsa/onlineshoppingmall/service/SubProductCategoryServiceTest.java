@@ -113,8 +113,8 @@ class SubProductCategoryServiceTest {
     }
 
     @Test
-    @DisplayName("기존 하위 상품 카테고리의 이름을 수정할 수 있다.")
-    void 하위카테고리_이름_수정() {
+    @DisplayName("기존 하위 상품 카테고리의 상위 상품 카테고리와 이름을 수정할 수 있다.")
+    void 하위카테고리_수정() {
         // given
         // 수정 대상인 하위 상품 카테고리의 상위 상품 카테고리
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
@@ -129,16 +129,23 @@ class SubProductCategoryServiceTest {
             .upperProductCategory(upperProductCategory)
             .build();
 
+        // 수정하고자하는 상위 상품 카테고리의 상위 상품 카테고리
+        UpperProductCategory upperProductCategoryToUpdate = UpperProductCategory.builder()
+            .id(2L)
+            .name("신발")
+            .build();
+
         upperProductCategory.addSubProductCategory(subProductCategory);
 
         given(subProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(subProductCategory));
-        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
+        given(upperProductCategoryRepository.findById(2L)).willReturn(Optional.ofNullable(upperProductCategoryToUpdate));
 
         // when
-        SubProductCategoryItem newSubProductCategoryItem = subProductCategoryService.updateCategory(1L, 1L, "운동화");
+        SubProductCategory updatedSubProductCategory = subProductCategoryService.updateCategory(1L, 2L, "운동화");
 
         // then
-        assertThat(newSubProductCategoryItem.getName()).isEqualTo("운동화");
+        assertThat(updatedSubProductCategory.getName()).isEqualTo("운동화");
+        assertThat(updatedSubProductCategory.getUpperProductCategory()).isEqualTo(upperProductCategoryToUpdate);
     }
 
     @Test

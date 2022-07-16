@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,7 +42,10 @@ public class SubProductCategory extends BaseTimeEntity {
     }
 
     public void updateInfo(UpperProductCategory upperProductCategory, String name) {
-        this.upperProductCategory.getSubProductCategories().remove(this);
+        if (this.upperProductCategory != null) {
+            this.upperProductCategory.getSubProductCategories().remove(this);
+        }
+
         this.upperProductCategory = upperProductCategory;
         this.upperProductCategory.addSubProductCategory(this);
         this.name = name;

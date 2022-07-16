@@ -3,6 +3,8 @@ package musinsa.onlineshoppingmall.service;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,7 @@ class SubProductCategoryServiceTest {
 
     @Test
     @DisplayName("새로운 하위 상품 카테고리를 등록할 수 있다.")
-    void 하위_상품_카테고리_신규_등록() {
+    void 하위카테고리_등록() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
             .id(1L)
@@ -60,7 +62,7 @@ class SubProductCategoryServiceTest {
 
     @Test
     @DisplayName("새로운 하위 상품 카테고리 등록 시 상위 상품 카테고리가 없으면 예외를 발생한다.")
-    void 상위_카테고리_비식별_예외() {
+    void 하위카테고리_등록_상위카테고리_비식별_예외() {
         // given
         given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(null));
 
@@ -71,8 +73,8 @@ class SubProductCategoryServiceTest {
     }
 
     @Test
-    @DisplayName("새로운 하위 상품 카테고리 등록 시 상위 카테고리와 이름이 중복될 경우 예외를 발생한다.")
-    void 상위_카테고리명_중복_예외() {
+    @DisplayName("새로운 하위 상품 카테고리 등록 시 상위 상품 카테고리와 이름이 중복될 경우 예외를 발생한다.")
+    void 하위카테고리_등록_상위카테고리_중복_예외() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
             .id(1L)
@@ -88,8 +90,8 @@ class SubProductCategoryServiceTest {
     }
 
     @Test
-    @DisplayName("새로운 하위 상품 카테고리 등록 시 기존 하위 카테고리와 이름이 중복될 경우 예외를 발생한다.")
-    void 하위_카테고리명_중복_예외() {
+    @DisplayName("새로운 하위 상품 카테고리 등록 시 기존 하위 상품 카테고리와 이름이 중복될 경우 예외를 발생한다.")
+    void 하위카테고리_등록_하위카테고리_중복_예외() {
         // given
         SubProductCategory subProductCategory = SubProductCategory.builder()
             .id(1L)
@@ -108,5 +110,52 @@ class SubProductCategoryServiceTest {
         assertThatThrownBy(() -> subProductCategoryService.saveCategory(1L, "스니커즈"))
             .isInstanceOf(IllegalStateException.class)
             .hasMessageContaining("이미 존재하는 하위 카테고리 이름입니다.");
+    }
+
+    @Test
+    @DisplayName("기존 하위 상품 카테고리의 이름을 수정할 수 있다.")
+    void 하위카테고리_이름_수정() {
+        // given
+        // 수정 대상인 하위 상품 카테고리의 상위 상품 카테고리
+        UpperProductCategory upperProductCategory = UpperProductCategory.builder()
+            .id(1L)
+            .name("액세서리")
+            .build();
+
+        // 수정 대상인 하위 상품 카테고리
+        SubProductCategory subProductCategory = SubProductCategory.builder()
+            .id(1L)
+            .name("구두")
+            .upperProductCategory(upperProductCategory)
+            .build();
+
+        upperProductCategory.addSubProductCategory(subProductCategory);
+
+        given(subProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(subProductCategory));
+        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
+
+        // when
+        SubProductCategoryItem newSubProductCategoryItem = subProductCategoryService.updateCategory(1L, 1L, "운동화");
+
+        // then
+        assertThat(newSubProductCategoryItem.getName()).isEqualTo("운동화");
+    }
+
+    @Test
+    @DisplayName("기존 하위 카테고리를 삭제하는 JpaRepository deleteById 메서드를 호출할 수 있다.")
+    void 하위카테고리_삭제_메서드_호출() {
+        // given
+        SubProductCategory subProductCategory = SubProductCategory.builder()
+            .id(1L)
+            .name("팔찌")
+            .build();
+
+        given(subProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(subProductCategory));
+
+        // when
+        subProductCategoryService.deleteCategory(1L);
+
+        // then
+        verify(subProductCategoryRepository, times(1)).deleteById(1L);
     }
 }

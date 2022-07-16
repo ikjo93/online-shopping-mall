@@ -31,7 +31,7 @@ public class SubProductCategoryControllerTest {
 
     @Test
     @DisplayName("신규 하위 상품 카테고리 등록 요청을 처리할 수 있다.")
-    void 신규_하위_상품_카테고리_등록_요청_처리() throws Exception {
+    void 신규_하위카테고리_등록_요청_처리() throws Exception {
         // given
         String requestBody = "{\n"
             + "    \"upperProductCategoryId\" : 1,\n"

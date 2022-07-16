@@ -23,7 +23,7 @@ public class SubProductCategoryRepositoryTest {
     private UpperProductCategoryRepository upperProductCategoryRepository;
 
     @Test
-    @DisplayName("상위 카테고리가 등록되지 않은 하위 카테고리들을 조회할 수 있다.")
+    @DisplayName("상위 상품 카테고리가 등록되지 않은 하위 상품 카테고리들을 조회할 수 있다.")
     void 상위카테고리_미등록_하위카테고리_조회() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder().name("모자").build();

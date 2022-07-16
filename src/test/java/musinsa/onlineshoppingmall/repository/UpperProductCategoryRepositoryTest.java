@@ -30,8 +30,8 @@ class UpperProductCategoryRepositoryTest {
     }
 
     @Test
-    @DisplayName("상품 카테고리 식별자로 상품 카테고리 정보를 조회할 수 있다.")
-    void 식별자별_상품_카테고리_정보_조회() {
+    @DisplayName("상위 상품 카테고리 식별자로 상위 상품 카테고리를 조회할 수 있다.")
+    void 식별자별_상위카테고리_정보_조회() {
         // given
         Long id = savedUpperProductCategory.getId();
 
@@ -45,7 +45,7 @@ class UpperProductCategoryRepositoryTest {
 
     @Test
     @DisplayName("전체 상품 카테고리 정보를 조회할 수 있다.")
-    void 전체_상품_카테고리_정보_조회() {
+    void 전체_상위카테고리_조회() {
         // given
         UpperProductCategory topsCategory = UpperProductCategory.builder().name("상의").build();
         UpperProductCategory bottomsCategory = UpperProductCategory.builder().name("하의").build();
@@ -64,8 +64,8 @@ class UpperProductCategoryRepositoryTest {
     }
 
     @Test
-    @DisplayName("상품 카테고리 이름으로 상품 카테고리 정보를 조회할 수 있다.")
-    void 이름별_상품_카테고리_정보_조회() {
+    @DisplayName("상위 상품 카테고리 이름으로 상위 상품 카테고리를 조회할 수 있다.")
+    void 이름별_상위카테고리_정보_조회() {
         // given
         String name = savedUpperProductCategory.getName();
 

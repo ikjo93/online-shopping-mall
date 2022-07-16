@@ -75,7 +75,7 @@ class UpperProductCategoryServiceTest {
 
     @Test
     @DisplayName("식별자(id)로 상위 상품 카테고리가 조회되지 않을 때 예외가 발생한다.")
-    void 비식별_상위카테고리_조회시_예외() {
+    void 비식별_상위카테고리_조회_예외() {
         // given
         given(upperProductCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(null));
 
@@ -162,7 +162,7 @@ class UpperProductCategoryServiceTest {
 
     @Test
     @DisplayName("기존에 존재하는 이름으로 상위 상품 카테고리를 등록 시 예외가 발생한다.")
-    void 상위카테고리_중복_등록_예외() {
+    void 상위카테고리_등록_중복_이름_예외() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
             .id(1L)
@@ -174,7 +174,7 @@ class UpperProductCategoryServiceTest {
         // when, then
         assertThatThrownBy(() -> upperProductCategoryService.saveCategory("신발"))
             .isInstanceOf(IllegalStateException.class)
-            .hasMessageContaining("이미 존재하는 카테고리입니다.");
+            .hasMessageContaining("이미 존재하는 상위 상품 카테고리 이름입니다.");
     }
 
     @Test
@@ -196,8 +196,61 @@ class UpperProductCategoryServiceTest {
     }
 
     @Test
+    @DisplayName("기존 상위 상품 카테고리 수정 시 다른 상위 상품 카테고리와 이름이 중복될 경우 예외가 발생한다.")
+    void 상위카테고리_이름_수정_상위카테고리_중복_예외() {
+        // given
+        // 수정 대상 상위 상품 카테고리
+        UpperProductCategory upperProductCategory1 = UpperProductCategory.builder()
+            .id(1L)
+            .name("액세서리")
+            .build();
+
+        // 수정하려는 이름과 동일한 이름의 상위 상품 카테고리
+        UpperProductCategory upperProductCategory2 = UpperProductCategory.builder()
+            .id(2L)
+            .name("모자")
+            .build();
+
+        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory1));
+        given(upperProductCategoryRepository.findByName("모자")).willReturn(upperProductCategory2);
+
+        // when, then
+        assertThatThrownBy(() -> upperProductCategoryService.updateCategory(1L, "모자"))
+            .isInstanceOf(IllegalStateException.class)
+            .hasMessageContaining("이미 존재하는 상위 상품 카테고리 이름입니다.");
+    }
+
+    @Test
+    @DisplayName("기존 상위 상품 카테고리 수정 시 해당 카테고리에 속한 하위 상품 카테고리의 이름과 중복될 경우 예외가 발생한다.")
+    void 상위카테고리_이름_수정_하위카테고리_중복_예외() {
+        // given
+        // 수정 대상 상위 상품 카테고리
+        UpperProductCategory upperProductCategory = UpperProductCategory.builder()
+            .id(1L)
+            .name("액세서리")
+            .build();
+
+        // 수정하려는 상위 상품 카테고리에 속한 하위 상품 카테고리
+        SubProductCategory subProductCategory = SubProductCategory.builder()
+            .id(1L)
+            .upperProductCategory(upperProductCategory)
+            .name("목걸이")
+            .build();
+
+        upperProductCategory.addSubProductCategory(subProductCategory);
+
+        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
+        given(upperProductCategoryRepository.findByName("목걸이")).willReturn(null);
+
+        // when, then
+        assertThatThrownBy(() -> upperProductCategoryService.updateCategory(1L, "목걸이"))
+            .isInstanceOf(IllegalStateException.class)
+            .hasMessageContaining("이미 존재하는 하위 카테고리 이름입니다.");
+    }
+
+    @Test
     @DisplayName("기존에 존재하는 상위 카테고리를 삭제하는 JpaRepository deleteById 메서드를 호출할 수 있다.")
-    void 상위카테고리_삭제() {
+    void 상위카테고리_삭제_메서드_호출() {
         // when
         upperProductCategoryService.deleteCategory(1L);
 

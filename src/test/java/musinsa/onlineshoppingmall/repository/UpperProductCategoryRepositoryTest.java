@@ -24,11 +24,9 @@ class UpperProductCategoryRepositoryTest {
 
     @BeforeEach
     void setup() {
-        UpperProductCategory upperProductCategory = UpperProductCategory.builder()
-            .name("신발")
-            .build();
-
+        UpperProductCategory upperProductCategory = UpperProductCategory.builder().name("모자").build();
         savedUpperProductCategory = upperProductCategoryRepository.save(upperProductCategory);
+        upperProductCategoryRepository.flush();
     }
 
     @Test
@@ -42,28 +40,21 @@ class UpperProductCategoryRepositoryTest {
 
         // then
         assertThat(findProductCategory.isPresent()).isTrue();
-        assertThat(findProductCategory.get().getName()).isEqualTo("신발");
+        assertThat(findProductCategory.get().getName()).isEqualTo("모자");
     }
 
     @Test
     @DisplayName("전체 상품 카테고리 정보를 조회할 수 있다.")
     void 전체_상품_카테고리_정보_조회() {
         // given
-        UpperProductCategory topsCategory = UpperProductCategory.builder()
-            .name("상의")
-            .build();
-
-        UpperProductCategory bottomsCategory = UpperProductCategory.builder()
-            .name("하의")
-            .build();
-
-        UpperProductCategory hatCategory = UpperProductCategory.builder()
-            .name("모자")
-            .build();
+        UpperProductCategory topsCategory = UpperProductCategory.builder().name("상의").build();
+        UpperProductCategory bottomsCategory = UpperProductCategory.builder().name("하의").build();
+        UpperProductCategory hatCategory = UpperProductCategory.builder().name("액세서리").build();
 
         upperProductCategoryRepository.save(topsCategory);
         upperProductCategoryRepository.save(bottomsCategory);
         upperProductCategoryRepository.save(hatCategory);
+        upperProductCategoryRepository.flush();
 
         // when
         List<UpperProductCategory> categories = upperProductCategoryRepository.findAllCategories();

@@ -62,7 +62,7 @@ public class SubProductCategoryControllerIntegrationTest {
 
     @Test
     @DisplayName("기존 하위 상품 카테고리의 상위 카테고리와 이름을 수정할 수 있다.")
-    void 하위카테고리_수정_요청() throws Exception {
+    void 하위카테고리_수정() throws Exception {
         // given
         String requestBody =
             "{\n"
@@ -91,7 +91,7 @@ public class SubProductCategoryControllerIntegrationTest {
 
     @Test
     @DisplayName("기존 하위 상품 카테고리를 삭제할 수 있다.")
-    void 하위카테고리_삭제_요청() throws Exception {
+    void 하위카테고리_삭제() throws Exception {
         // given
 
         // when

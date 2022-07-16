@@ -1,9 +1,13 @@
 package musinsa.onlineshoppingmall.integration;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Optional;
+import musinsa.onlineshoppingmall.domain.UpperProductCategory;
+import musinsa.onlineshoppingmall.repository.UpperProductCategoryRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +27,67 @@ public class UpperProductCategoryControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private UpperProductCategoryRepository upperProductCategoryRepository;
+
     @Test
-    @DisplayName("신규 상품 카테고리를 등록할 수 있다.")
-    void 신규_상품_카테고리_등록() throws Exception {
+    @DisplayName("상위 상품 카테고리 식별자로 해당 하위 상품 카테고리들을 조회할 수 있다.")
+    void 상위카테고리_식별자로_하위카테고리_조회() throws Exception {
         // given
-        String requestBody = "{\n"
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+            get("/api/upper-product-categories/1")
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        resultActions.andExpect(status().isOk())
+            .andExpect(jsonPath("$.subCategories[0].id").value(1))
+            .andExpect(jsonPath("$.subCategories[0].name").value("브이넥 티셔츠"))
+            .andExpect(jsonPath("$.subCategories[1].id").value(2))
+            .andExpect(jsonPath("$.subCategories[1].name").value("라운드 티셔츠"));
+    }
+
+    @Test
+    @DisplayName("상위 상품 카테고리를 지정하지 않았을 때 전체 상품 카테고리를 조회할 수 있다.")
+    void 전체카테고리_조회() throws Exception {
+        // given
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+            get("/api/upper-product-categories")
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        resultActions.andExpect(status().isOk())
+            .andExpect(jsonPath("$.totalCategories[0].id").value(1))
+            .andExpect(jsonPath("$.totalCategories[0].name").value("티셔츠"))
+            .andExpect(jsonPath("$.totalCategories[0].subCategories[0].id").value(1))
+            .andExpect(jsonPath("$.totalCategories[0].subCategories[0].name").value("브이넥 티셔츠"))
+            .andExpect(jsonPath("$.totalCategories[0].subCategories[1].id").value(2))
+            .andExpect(jsonPath("$.totalCategories[0].subCategories[1].name").value("라운드 티셔츠"))
+            .andExpect(jsonPath("$.totalCategories[1].id").value(2))
+            .andExpect(jsonPath("$.totalCategories[1].name").value("바지"))
+            .andExpect(jsonPath("$.totalCategories[1].subCategories[0].id").value(3))
+            .andExpect(jsonPath("$.totalCategories[1].subCategories[0].name").value("반바지"))
+            .andExpect(jsonPath("$.totalCategories[1].subCategories[1].id").value(4))
+            .andExpect(jsonPath("$.totalCategories[1].subCategories[1].name").value("냉장고 바지"))
+            .andExpect(jsonPath("$.totalCategories[2].id").value(3))
+            .andExpect(jsonPath("$.totalCategories[2].name").value("신발"))
+            .andExpect(jsonPath("$.totalCategories[2].subCategories[0].id").value(5))
+            .andExpect(jsonPath("$.totalCategories[2].subCategories[0].name").value("운동화"))
+            .andExpect(jsonPath("$.totalCategories[2].subCategories[1].id").value(6))
+            .andExpect(jsonPath("$.totalCategories[2].subCategories[1].name").value("스니커즈"));
+    }
+
+    @Test
+    @DisplayName("신규 상위 상품 카테고리를 등록할 수 있다.")
+    void 신규_상위카테고리_등록() throws Exception {
+        // given
+        String requestBody =
+            "{\n"
             + "    \"name\" : \"모자\"\n"
             + "}";
 
@@ -40,7 +100,73 @@ public class UpperProductCategoryControllerIntegrationTest {
         );
 
         // then
+        Optional<UpperProductCategory> result = upperProductCategoryRepository.findById(4L);
+        assertThat(result.isPresent()).isTrue();
+        assertThat(result.get().getName()).isEqualTo("모자");
+
         resultActions.andExpect(status().isOk())
+            .andExpect(jsonPath("$..['id']").value(4))
             .andExpect(jsonPath("$..['name']").value("모자"));
+    }
+
+    @Test
+    @DisplayName("기존 상위 상품 카테고리의 이름을 수정할 수 있다.")
+    void 상위카테고리_이름_수정() throws Exception {
+        // given
+        String requestBody =
+            "{\n"
+            + "    \"name\" : \"상의\"\n"
+            + "}";
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+            patch("/api/upper-product-categories/1")
+                .content(requestBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        Optional<UpperProductCategory> result = upperProductCategoryRepository.findById(1L);
+        assertThat(result.isPresent()).isTrue();
+        assertThat(result.get().getName()).isEqualTo("상의");
+
+        resultActions.andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value(1))
+            .andExpect(jsonPath("$.name").value("상의"));
+    }
+
+    @Test
+    @DisplayName("기존 상위 상품 카테고리를 삭제할 수 있고 해당 하위 상품 카테고리는 미분류 상태로 처리된다.")
+    void 상위카테고리_삭제() throws Exception {
+        // given
+
+        // when
+        ResultActions resultAction1 = mockMvc.perform(
+            delete("/api/upper-product-categories/1")
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        assertThat(upperProductCategoryRepository.findById(1L).isEmpty()).isTrue();
+
+        resultAction1.andExpect(status().isOk())
+            .andExpect(jsonPath("$..['status']").value("OK"))
+            .andExpect(jsonPath("$..['message']").value("정상적으로 삭제 처리되었습니다."));
+
+        // when
+        ResultActions resultAction2 = mockMvc.perform(
+            get("/api/upper-product-categories")
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        resultAction2.andExpect(status().isOk())
+            .andExpect(jsonPath("$.totalCategories[2].id").doesNotExist())
+            .andExpect(jsonPath("$.totalCategories[2].name").value("UNCLASSIFIED"))
+            .andExpect(jsonPath("$.totalCategories[2].subCategories[0].id").value(1))
+            .andExpect(jsonPath("$.totalCategories[2].subCategories[0].name").value("브이넥 티셔츠"))
+            .andExpect(jsonPath("$.totalCategories[2].subCategories[1].id").value(2))
+            .andExpect(jsonPath("$.totalCategories[2].subCategories[1].name").value("라운드 티셔츠"));
     }
 }

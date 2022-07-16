@@ -36,7 +36,7 @@ class UpperProductCategoryServiceTest {
     private SubProductCategoryRepository subProductCategoryRepository;
 
     @Test
-    @DisplayName("상위 상품 카테고리 식별자로 해당 하위 상품 카테고리들을 조회할 수 있다.")
+    @DisplayName("상위 상품 카테고리 식별자로 해당 하위 상품 카테고리 조회 처리를 할 수 있다.")
     void 상위카테고리_속한_하위카테고리_조회() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
@@ -75,7 +75,7 @@ class UpperProductCategoryServiceTest {
     }
 
     @Test
-    @DisplayName("전체 카테고리를 조회할 수 있다.")
+    @DisplayName("분류되지 않은 하위 카테고리를 포함하여 상위 및 하위 전체 카테고리 조회를 처리할 수 있다.")
     void 전체_카테고리_조회() {
         // given
         UpperProductCategory upperProductCategory1 = UpperProductCategory.builder()
@@ -108,13 +108,16 @@ class UpperProductCategoryServiceTest {
         // then
         List<UpperProductCategoryItem> result = totalCategories.getTotalCategories();
         assertThat(result.size()).isEqualTo(3); // 실제 상위 카테고리는 2개이나, 미분류된 하위 카테고리를 포함하는 상위 카테고리를 포함하여 3개
+        assertThat(result.get(0).getName()).isEqualTo("모자");
         assertThat(result.get(0).getSubCategories().size()).isEqualTo(2);
+        assertThat(result.get(1).getName()).isEqualTo("액세서리");
         assertThat(result.get(1).getSubCategories().size()).isEqualTo(1);
+        assertThat(result.get(2).getName()).isEqualTo("UNCLASSIFIED");
         assertThat(result.get(2).getSubCategories().size()).isEqualTo(1);
     }
 
     @Test
-    @DisplayName("새로운 상위 상품 카테고리를 등록할 수 있다.")
+    @DisplayName("새로운 상위 상품 카테고리 등록 처리를 할 수 있다.")
     void 상위카테고리_등록() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
@@ -148,7 +151,7 @@ class UpperProductCategoryServiceTest {
     }
 
     @Test
-    @DisplayName("기존에 존재하는 상위 카테고리 이름을 수정할 수 있다.")
+    @DisplayName("기존에 존재하는 상위 카테고리의 이름 수정을 처리할 수 있다.")
     void 상위카테고리_이름_수정() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
@@ -165,7 +168,7 @@ class UpperProductCategoryServiceTest {
 
     @Test
     @DisplayName("기존 상위 상품 카테고리 수정 시 다른 상위 상품 카테고리와 이름이 중복될 경우 예외가 발생한다.")
-    void 상위카테고리_이름_수정_상위카테고리_중복_예외() {
+    void 상위카테고리_이름_수정_상위카테고리간_중복_예외() {
         // given
         // 수정 대상 상위 상품 카테고리
         UpperProductCategory upperProductCategory1 = UpperProductCategory.builder()
@@ -186,7 +189,7 @@ class UpperProductCategoryServiceTest {
 
     @Test
     @DisplayName("기존 상위 상품 카테고리 수정 시 해당 카테고리에 속한 하위 상품 카테고리의 이름과 중복될 경우 예외가 발생한다.")
-    void 상위카테고리_이름_수정_하위카테고리_중복_예외() {
+    void 상위카테고리_이름_수정_하위카테고리간_중복_예외() {
         // given
         // 수정 대상 상위 상품 카테고리
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()

@@ -60,7 +60,7 @@ class UpperProductCategoryRepositoryTest {
         List<UpperProductCategory> categories = upperProductCategoryRepository.findAllCategories();
 
         // then
-        assertThat(categories.size()).isEqualTo(4);
+        assertThat(categories.size()).isEqualTo(7); // 초기에 상위 카테고리 데이터 3개 추가(data.sql)한 것 포함
     }
 
     @Test

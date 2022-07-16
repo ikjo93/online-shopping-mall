@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import musinsa.onlineshoppingmall.domain.SubProductCategory;
 import musinsa.onlineshoppingmall.domain.UpperProductCategory;
 import musinsa.onlineshoppingmall.dto.upperproductcategory.UpperProductCategoryItem;
 import musinsa.onlineshoppingmall.dto.upperproductcategory.UpperProductCategoryItems;
 import musinsa.onlineshoppingmall.dto.subproductcategory.SubProductCategoryItem;
 import musinsa.onlineshoppingmall.dto.subproductcategory.SubProductCategoryItems;
+import musinsa.onlineshoppingmall.repository.SubProductCategoryRepository;
 import musinsa.onlineshoppingmall.repository.UpperProductCategoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UpperProductCategoryService {
 
+    public static final String UNCLASSIFIED_CATEGORY = "UNCLASSIFIED";
+    
     private final UpperProductCategoryRepository upperProductCategoryRepository;
+    private final SubProductCategoryRepository subProductCategoryRepository;
 
     public SubProductCategoryItems getSubCategoriesById(Long id) {
         UpperProductCategory upperProductCategory = upperProductCategoryRepository.findAllCategoriesById(id).orElseThrow(() -> {
@@ -36,7 +41,19 @@ public class UpperProductCategoryService {
             .map(UpperProductCategoryItem::from)
             .collect(Collectors.toList());
 
+        totalCategories.add(getUnclassifiedProductCategories());
+
         return new UpperProductCategoryItems(totalCategories);
+    }
+
+    private UpperProductCategoryItem getUnclassifiedProductCategories() {
+        List<SubProductCategory> unclassifiedSubProductCategories = subProductCategoryRepository.findAllByUpperProductCategoryIsNull();
+        UpperProductCategory unclassifiedProductCategory = UpperProductCategory.builder()
+            .name(UNCLASSIFIED_CATEGORY)
+            .subProductCategories(unclassifiedSubProductCategories)
+            .build();
+
+        return UpperProductCategoryItem.from(unclassifiedProductCategory);
     }
 
     @Transactional
@@ -47,8 +64,7 @@ public class UpperProductCategoryService {
             .name(name)
             .build();
 
-        UpperProductCategory savedUpperProductCategory = upperProductCategoryRepository.save(
-            upperProductCategory);
+        UpperProductCategory savedUpperProductCategory = upperProductCategoryRepository.save(upperProductCategory);
 
         return UpperProductCategoryItem.from(savedUpperProductCategory);
     }

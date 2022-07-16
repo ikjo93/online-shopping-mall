@@ -23,8 +23,7 @@ public class UpperProductCategoryItem {
             upperProductCategory));
     }
 
-    private static List<SubProductCategoryItem> getSubCategories(
-        UpperProductCategory upperProductCategory) {
+    private static List<SubProductCategoryItem> getSubCategories(UpperProductCategory upperProductCategory) {
         List<SubProductCategory> subCategories = upperProductCategory.getSubProductCategories();
         if (subCategories == null) {
             return new ArrayList<>();

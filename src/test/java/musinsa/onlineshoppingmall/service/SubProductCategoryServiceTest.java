@@ -6,7 +6,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import musinsa.onlineshoppingmall.domain.UpperProductCategory;
@@ -39,15 +38,10 @@ class SubProductCategoryServiceTest {
     void 하위카테고리_등록() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
-            .id(1L)
-            .subProductCategories(new ArrayList<>())
-            .name("신발")
-            .build();
+            .id(1L).name("신발").build();
 
         SubProductCategory subProductCategory = SubProductCategory.builder()
-            .id(1L)
-            .name("스니커즈")
-            .build();
+            .id(1L).name("스니커즈").build();
 
         given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
         given(subProductCategoryRepository.save(any(SubProductCategory.class))).willReturn(subProductCategory);
@@ -77,9 +71,7 @@ class SubProductCategoryServiceTest {
     void 하위카테고리_등록_상위카테고리_중복_예외() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
-            .id(1L)
-            .name("신발")
-            .build();
+            .id(1L).name("신발").build();
 
         given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
 
@@ -94,15 +86,10 @@ class SubProductCategoryServiceTest {
     void 하위카테고리_등록_하위카테고리_중복_예외() {
         // given
         SubProductCategory subProductCategory = SubProductCategory.builder()
-            .id(1L)
-            .name("스니커즈")
-            .build();
+            .id(1L).name("스니커즈").build();
 
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
-            .id(1L)
-            .subProductCategories(List.of(subProductCategory))
-            .name("신발")
-            .build();
+            .id(1L).subProductCategories(List.of(subProductCategory)).name("신발").build();
 
         given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
 
@@ -118,22 +105,15 @@ class SubProductCategoryServiceTest {
         // given
         // 수정 대상인 하위 상품 카테고리의 상위 상품 카테고리
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
-            .id(1L)
-            .name("액세서리")
-            .build();
+            .id(1L).name("액세서리").build();
 
         // 수정 대상인 하위 상품 카테고리
         SubProductCategory subProductCategory = SubProductCategory.builder()
-            .id(1L)
-            .name("구두")
-            .upperProductCategory(upperProductCategory)
-            .build();
+            .id(1L).name("구두").upperProductCategory(upperProductCategory).build();
 
         // 수정하고자하는 상위 상품 카테고리의 상위 상품 카테고리
         UpperProductCategory upperProductCategoryToUpdate = UpperProductCategory.builder()
-            .id(2L)
-            .name("신발")
-            .build();
+            .id(2L).name("신발").build();
 
         upperProductCategory.addSubProductCategory(subProductCategory);
 
@@ -153,9 +133,7 @@ class SubProductCategoryServiceTest {
     void 하위카테고리_삭제_메서드_호출() {
         // given
         SubProductCategory subProductCategory = SubProductCategory.builder()
-            .id(1L)
-            .name("팔찌")
-            .build();
+            .id(1L).name("팔찌").build();
 
         given(subProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(subProductCategory));
 

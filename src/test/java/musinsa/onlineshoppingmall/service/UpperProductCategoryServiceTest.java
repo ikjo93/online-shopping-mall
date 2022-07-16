@@ -40,29 +40,18 @@ class UpperProductCategoryServiceTest {
     void 상위카테고리_속한_하위카테고리_조회() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
-            .id(1L)
-            .name("모자")
-            .build();
+            .id(1L).name("모자").build();
 
         SubProductCategory subProductCategory1 = SubProductCategory.builder()
-            .id(1L)
-            .name("벙거지")
-            .upperProductCategory(upperProductCategory)
-            .build();
+            .id(1L).name("벙거지").upperProductCategory(upperProductCategory).build();
 
         SubProductCategory subProductCategory2 = SubProductCategory.builder()
-            .id(2L)
-            .name("스냅백")
-            .upperProductCategory(upperProductCategory)
-            .build();
+            .id(2L).name("스냅백").upperProductCategory(upperProductCategory).build();
 
         SubProductCategory subProductCategory3 = SubProductCategory.builder()
-            .id(3L)
-            .name("캡")
-            .upperProductCategory(upperProductCategory)
-            .build();
+            .id(3L).name("캡").upperProductCategory(upperProductCategory).build();
 
-        upperProductCategory.getSubProductCategories().addAll(List.of(subProductCategory1, subProductCategory2, subProductCategory3));
+        upperProductCategory.addSubProductCategory(subProductCategory1, subProductCategory2, subProductCategory3);
 
         given(upperProductCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
 
@@ -90,40 +79,25 @@ class UpperProductCategoryServiceTest {
     void 전체_카테고리_조회() {
         // given
         UpperProductCategory upperProductCategory1 = UpperProductCategory.builder()
-            .id(1L)
-            .name("모자")
-            .build();
+            .id(1L).name("모자").build();
 
         UpperProductCategory upperProductCategory2 = UpperProductCategory.builder()
-            .id(2L)
-            .name("액세서리")
-            .build();
+            .id(2L).name("액세서리").build();
 
         SubProductCategory subProductCategory1 = SubProductCategory.builder()
-            .id(1L)
-            .name("벙거지")
-            .upperProductCategory(upperProductCategory1)
-            .build();
+            .id(1L).name("벙거지").upperProductCategory(upperProductCategory1).build();
 
         SubProductCategory subProductCategory2 = SubProductCategory.builder()
-            .id(2L)
-            .name("스냅백")
-            .upperProductCategory(upperProductCategory1)
-            .build();
+            .id(2L).name("스냅백").upperProductCategory(upperProductCategory1).build();
 
         SubProductCategory subProductCategory3 = SubProductCategory.builder()
-            .id(3L)
-            .name("목걸이")
-            .upperProductCategory(upperProductCategory2)
-            .build();
+            .id(3L).name("목걸이").upperProductCategory(upperProductCategory2).build();
 
         SubProductCategory subProductCategory4 = SubProductCategory.builder()
-            .id(4L)
-            .name("와이드 팬츠")
-            .build();
+            .id(4L).name("와이드 팬츠").build();
 
-        upperProductCategory1.getSubProductCategories().addAll(List.of(subProductCategory1, subProductCategory2));
-        upperProductCategory2.getSubProductCategories().addAll(List.of(subProductCategory3));
+        upperProductCategory1.addSubProductCategory(subProductCategory1, subProductCategory2);
+        upperProductCategory2.addSubProductCategory(subProductCategory3);
 
         given(upperProductCategoryRepository.findAllCategories()).willReturn(List.of(upperProductCategory1, upperProductCategory2));
         given(subProductCategoryRepository.findAllByUpperProductCategoryIsNull()).willReturn(List.of(subProductCategory4));
@@ -144,9 +118,7 @@ class UpperProductCategoryServiceTest {
     void 상위카테고리_등록() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
-            .id(1L)
-            .name("신발")
-            .build();
+            .id(1L).name("신발").build();
 
         given(upperProductCategoryRepository.findByName("신발")).willReturn(null);
         given(upperProductCategoryRepository.save(any(UpperProductCategory.class))).willReturn(
@@ -165,9 +137,7 @@ class UpperProductCategoryServiceTest {
     void 상위카테고리_등록_중복_이름_예외() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
-            .id(1L)
-            .name("신발")
-            .build();
+            .id(1L).name("신발").build();
 
         given(upperProductCategoryRepository.findByName("신발")).willReturn(upperProductCategory);
 
@@ -182,9 +152,7 @@ class UpperProductCategoryServiceTest {
     void 상위카테고리_이름_수정() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
-            .id(1L)
-            .name("모자")
-            .build();
+            .id(1L).name("모자").build();
 
         given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
 
@@ -201,15 +169,11 @@ class UpperProductCategoryServiceTest {
         // given
         // 수정 대상 상위 상품 카테고리
         UpperProductCategory upperProductCategory1 = UpperProductCategory.builder()
-            .id(1L)
-            .name("액세서리")
-            .build();
+            .id(1L).name("액세서리").build();
 
         // 수정하려는 이름과 동일한 이름의 상위 상품 카테고리
         UpperProductCategory upperProductCategory2 = UpperProductCategory.builder()
-            .id(2L)
-            .name("모자")
-            .build();
+            .id(2L).name("모자").build();
 
         given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory1));
         given(upperProductCategoryRepository.findByName("모자")).willReturn(upperProductCategory2);
@@ -226,16 +190,11 @@ class UpperProductCategoryServiceTest {
         // given
         // 수정 대상 상위 상품 카테고리
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
-            .id(1L)
-            .name("액세서리")
-            .build();
+            .id(1L).name("액세서리").build();
 
         // 수정하려는 상위 상품 카테고리에 속한 하위 상품 카테고리
         SubProductCategory subProductCategory = SubProductCategory.builder()
-            .id(1L)
-            .upperProductCategory(upperProductCategory)
-            .name("목걸이")
-            .build();
+            .id(1L).upperProductCategory(upperProductCategory).name("목걸이").build();
 
         upperProductCategory.addSubProductCategory(subProductCategory);
 
@@ -253,9 +212,7 @@ class UpperProductCategoryServiceTest {
     void 상위카테고리_삭제_메서드_호출() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
-            .id(1L)
-            .name("모자")
-            .build();
+            .id(1L).name("모자").build();
 
         given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
 

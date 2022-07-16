@@ -90,6 +90,7 @@ public class UpperProductCategoryService {
     }
 
     public void deleteCategory(Long id) {
+        getUpperProductCategoryByIdOrThrow(id);
         upperProductCategoryRepository.deleteById(id);
     }
 }

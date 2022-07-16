@@ -141,7 +141,7 @@ class UpperProductCategoryServiceTest {
 
     @Test
     @DisplayName("새로운 상위 상품 카테고리를 등록할 수 있다.")
-    void 상위카테고리_신규_등록() {
+    void 상위카테고리_등록() {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
             .id(1L)
@@ -251,6 +251,14 @@ class UpperProductCategoryServiceTest {
     @Test
     @DisplayName("기존에 존재하는 상위 카테고리를 삭제하는 JpaRepository deleteById 메서드를 호출할 수 있다.")
     void 상위카테고리_삭제_메서드_호출() {
+        // given
+        UpperProductCategory upperProductCategory = UpperProductCategory.builder()
+            .id(1L)
+            .name("모자")
+            .build();
+
+        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
+
         // when
         upperProductCategoryService.deleteCategory(1L);
 

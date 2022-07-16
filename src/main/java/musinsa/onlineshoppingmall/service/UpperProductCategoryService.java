@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class UpperProductCategoryService {
 
     public static final String UNCLASSIFIED_CATEGORY = "UNCLASSIFIED";
@@ -25,6 +25,7 @@ public class UpperProductCategoryService {
     private final UpperProductCategoryRepository upperProductCategoryRepository;
     private final SubProductCategoryRepository subProductCategoryRepository;
 
+    @Transactional(readOnly = true)
     public SubProductCategoryItems getSubCategoriesById(Long id) {
         UpperProductCategory upperProductCategory = upperProductCategoryRepository.findAllCategoriesById(id).orElseThrow(() -> {
             throw new IllegalStateException("존재하는 상품 카테고리가 없습니다.");
@@ -35,6 +36,7 @@ public class UpperProductCategoryService {
         return new SubProductCategoryItems(categoryItems);
     }
 
+    @Transactional(readOnly = true)
     public UpperProductCategoryItems getTotalCategories() {
         List<UpperProductCategoryItem> totalCategories = upperProductCategoryRepository.findAllCategories()
             .stream()
@@ -56,28 +58,26 @@ public class UpperProductCategoryService {
         return UpperProductCategoryItem.from(unclassifiedProductCategory);
     }
 
-    @Transactional
     public UpperProductCategoryItem saveCategory(String name) {
-        validateDuplicateCategory(name);
+        validateDuplicateNameOfUpperProductCategories(name);
 
-        UpperProductCategory upperProductCategory = UpperProductCategory.builder()
-            .name(name)
-            .build();
+        UpperProductCategory upperProductCategory = UpperProductCategory.builder().name(name).build();
 
         UpperProductCategory savedUpperProductCategory = upperProductCategoryRepository.save(upperProductCategory);
 
         return UpperProductCategoryItem.from(savedUpperProductCategory);
     }
 
-    private void validateDuplicateCategory(String name) {
+    private void validateDuplicateNameOfUpperProductCategories(String name) {
         Optional.ofNullable(upperProductCategoryRepository.findByName(name)).ifPresent(m -> {
-            throw new IllegalStateException("이미 존재하는 카테고리입니다.");
+            throw new IllegalStateException("이미 존재하는 상위 상품 카테고리 이름입니다.");
         });
     }
 
-    @Transactional
     public UpperProductCategoryItem updateCategory(Long id, String name) {
         UpperProductCategory upperProductCategory = getUpperProductCategoryByIdOrThrow(id);
+        validateDuplicateNameOfUpperProductCategories(name);
+        upperProductCategory.validateDuplicateNameOfSubProductCategories(name);
         upperProductCategory.updateName(name);
 
         return UpperProductCategoryItem.from(upperProductCategory);
@@ -89,7 +89,6 @@ public class UpperProductCategoryService {
         });
     }
 
-    @Transactional
     public void deleteCategory(Long id) {
         upperProductCategoryRepository.deleteById(id);
     }

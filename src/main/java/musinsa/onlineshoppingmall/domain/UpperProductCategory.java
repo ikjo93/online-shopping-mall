@@ -47,15 +47,13 @@ public class UpperProductCategory extends BaseTimeEntity {
             .collect(Collectors.toList());
     }
 
-    public void validateDuplicateName(String name) {
+    public void validateDuplicateNameOfUpperProductCategory(String name) {
         if (this.name.equals(name)) {
             throw new IllegalStateException("하위 카테고리는 상위 카테고리와 동일한 이름일 수 없습니다.");
         }
-
-        validateNameOfSubProductCategories(name);
     }
 
-    private void validateNameOfSubProductCategories(String name) {
+    public void validateDuplicateNameOfSubProductCategories(String name) {
         subProductCategories.stream()
             .filter(subProductCategory -> subProductCategory.hasSameName(name))
             .findFirst().ifPresent(m -> {
@@ -73,6 +71,6 @@ public class UpperProductCategory extends BaseTimeEntity {
 
     @PreRemove
     public void removeSubProductCategory() {
-        subProductCategories.forEach(subProductCategory -> subProductCategory.initUpperProductCategory());
+        subProductCategories.forEach(SubProductCategory::initUpperProductCategory);
     }
 }

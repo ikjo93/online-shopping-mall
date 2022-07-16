@@ -19,7 +19,8 @@ public class SubProductCategoryService {
 
     public SubProductCategoryItem saveCategory(Long upperProductCategoryId, String name) {
         UpperProductCategory upperProductCategory = getUpperProductCategoryByIdOrThrow(upperProductCategoryId);
-        upperProductCategory.validateDuplicateName(name);
+        upperProductCategory.validateDuplicateNameOfUpperProductCategory(name);
+        upperProductCategory.validateDuplicateNameOfSubProductCategories(name);
 
         SubProductCategory subProductCategory = SubProductCategory.builder()
             .upperProductCategory(upperProductCategory)

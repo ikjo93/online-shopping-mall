@@ -131,7 +131,7 @@ class UpperProductCategoryControllerTest {
     }
 
     @Test
-    @DisplayName("신규 상위 상품 카테고리 등록 요청 시 데이터가 올바른 형식인지 검증한다.")
+    @DisplayName("신규 상위 상품 카테고리 등록 요청 시 데이터가 올바른 형식(Not Blank)인지 검증할 수 있다.")
     void 신규_상위카테고리_등록_요청_데이터_검증() throws Exception {
         // given
         // 빈값, 공백문자, 널값 등 잘못된 형식의 데이터

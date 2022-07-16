@@ -34,7 +34,7 @@ public class SubProductCategoryControllerTest {
     void 신규_하위_상품_카테고리_등록_요청_처리() throws Exception {
         // given
         String requestBody = "{\n"
-            + "    \"parentCategoryId\" : 1,\n"
+            + "    \"upperProductCategoryId\" : 1,\n"
             + "    \"name\" : \"스니커즈\"\n"
             + "}";
 

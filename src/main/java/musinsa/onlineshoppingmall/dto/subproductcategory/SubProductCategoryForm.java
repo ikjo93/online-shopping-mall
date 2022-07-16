@@ -8,7 +8,7 @@ import lombok.Getter;
 public class SubProductCategoryForm {
 
     @NotNull
-    private Long parentCategoryId;
+    private Long upperProductCategoryId;
     @NotBlank
     private String name;
 

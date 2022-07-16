@@ -22,12 +22,12 @@ public class SubProductCategoryController {
 
     @PostMapping("/api/sub-product-categories")
     public SubProductCategoryItem save(@Valid @RequestBody SubProductCategoryForm form) {
-        return subProductCategoryService.saveCategory(form.getParentCategoryId(), form.getName());
+        return subProductCategoryService.saveCategory(form.getUpperProductCategoryId(), form.getName());
     }
 
     @PatchMapping("/api/sub-product-categories/{id}")
     public SubProductCategoryItem update(@PathVariable Long id, @Valid @RequestBody SubProductCategoryForm form) {
-        return subProductCategoryService.updateCategory(id, form.getParentCategoryId(), form.getName());
+        return subProductCategoryService.updateCategory(id, form.getUpperProductCategoryId(), form.getName());
     }
 
     @DeleteMapping("/api/sub-product-categories/{id}")

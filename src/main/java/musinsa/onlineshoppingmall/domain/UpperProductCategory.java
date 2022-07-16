@@ -1,6 +1,7 @@
 package musinsa.onlineshoppingmall.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.Column;
@@ -61,8 +62,8 @@ public class UpperProductCategory extends BaseTimeEntity {
             });
     }
 
-    public void addSubProductCategory(SubProductCategory subProductCategory) {
-        subProductCategories.add(subProductCategory);
+    public void addSubProductCategory(SubProductCategory... subProductCategories) {
+        Arrays.stream(subProductCategories).forEach(this.subProductCategories::add);
     }
 
     public void updateName(String name) {

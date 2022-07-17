@@ -23,9 +23,7 @@ public class SubProductCategoryService {
         upperProductCategory.validateDuplicateNameOfSubProductCategories(name);
 
         SubProductCategory subProductCategory = SubProductCategory.builder()
-            .upperProductCategory(upperProductCategory)
-            .name(name)
-            .build();
+            .upperProductCategory(upperProductCategory).name(name).build();
 
         SubProductCategory savedSubProductCategory = subProductCategoryRepository.save(subProductCategory);
         upperProductCategory.addSubProductCategory(savedSubProductCategory);
@@ -41,8 +39,10 @@ public class SubProductCategoryService {
 
     public SubProductCategory updateCategory(Long subProductCategoryId, Long upperProductCategoryId, String name) {
         SubProductCategory subProductCategory = getSubProductCategoryByIdOrThrow(subProductCategoryId);
-        UpperProductCategory upperProductCategory = getUpperProductCategoryByIdOrThrow(upperProductCategoryId);
-        subProductCategory.updateInfo(upperProductCategory, name);
+        UpperProductCategory upperProductCategoryToUpdate = getUpperProductCategoryByIdOrThrow(upperProductCategoryId);
+        upperProductCategoryToUpdate.validateDuplicateNameOfUpperProductCategory(name);
+        upperProductCategoryToUpdate.validateDuplicateNameOfSubProductCategories(name);
+        subProductCategory.updateInfo(upperProductCategoryToUpdate, name);
 
         return subProductCategory;
     }

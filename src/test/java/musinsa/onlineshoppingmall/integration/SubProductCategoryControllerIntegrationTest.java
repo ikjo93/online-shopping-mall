@@ -61,6 +61,54 @@ public class SubProductCategoryControllerIntegrationTest {
     }
 
     @Test
+    @DisplayName("신규 하위 상품 카테고리 등록 시 해당 상위 상품 카테고리와 이름이 동일할 경우 예외가 발생한다.")
+    void 신규_하위카테고리_등록_상위중복_예외() throws Exception {
+        // given
+        String requestBody =
+            "{\n"
+            + "    \"upperProductCategoryId\" : 1,\n"
+            + "    \"name\" : \"티셔츠\"\n"
+            + "}";
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+            post("/api/sub-product-categories")
+                .content(requestBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        resultActions.andExpect(status().isConflict())
+            .andExpect(jsonPath("$..['status']").value("CONFLICT"))
+            .andExpect(jsonPath("$..['message']").value("하위 카테고리는 상위 카테고리와 동일한 이름일 수 없습니다."));
+    }
+
+    @Test
+    @DisplayName("신규 하위 상품 카테고리 등록 시 같은 하위 상품 카테고리 간 이름이 동일할 경우 예외가 발생한다.")
+    void 신규_하위카테고리_등록_하위중복_예외() throws Exception {
+        // given
+        String requestBody =
+            "{\n"
+            + "    \"upperProductCategoryId\" : 1,\n"
+            + "    \"name\" : \"라운드 티셔츠\"\n"
+            + "}";
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+            post("/api/sub-product-categories")
+                .content(requestBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        resultActions.andExpect(status().isConflict())
+            .andExpect(jsonPath("$..['status']").value("CONFLICT"))
+            .andExpect(jsonPath("$..['message']").value("이미 존재하는 하위 카테고리 이름입니다."));
+    }
+
+    @Test
     @DisplayName("기존 하위 상품 카테고리의 상위 카테고리와 이름을 수정할 수 있다.")
     void 하위카테고리_수정() throws Exception {
         // given
@@ -87,6 +135,54 @@ public class SubProductCategoryControllerIntegrationTest {
         resultActions.andExpect(status().isOk())
             .andExpect(jsonPath("$..['id']").value(3))
             .andExpect(jsonPath("$..['name']").value("오버핏 티셔츠"));
+    }
+
+    @Test
+    @DisplayName("기존 하위 상품 카테고리의 변경하려는 이름과 변경하려는 상위 상품 카테고리의 이름이 중복될 경우 예외를 발생한다.")
+    void 하위카테고리_수정_상위중복_예외() throws Exception {
+        // given
+        String requestBody =
+            "{\n"
+            + "    \"upperProductCategoryId\" : 1,\n"
+            + "    \"name\" : \"티셔츠\"\n"
+            + "}";
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+            patch("/api/sub-product-categories/1")
+                .content(requestBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        resultActions.andExpect(status().isConflict())
+            .andExpect(jsonPath("$..['status']").value("CONFLICT"))
+            .andExpect(jsonPath("$..['message']").value("하위 카테고리는 상위 카테고리와 동일한 이름일 수 없습니다."));
+    }
+
+    @Test
+    @DisplayName("기존 하위 상품 카테고리의 변경하려는 이름과 변경하려는 상위 상품 카테고리의 속한 하위 상품 카테고리들 간 이름이 중복될 경우 예외를 발생한다.")
+    void 하위카테고리_수정_하위중복_예외() throws Exception {
+        // given
+        String requestBody =
+            "{\n"
+            + "    \"upperProductCategoryId\" : 1,\n"
+            + "    \"name\" : \"라운드 티셔츠\"\n"
+            + "}";
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+            patch("/api/sub-product-categories/4")
+                .content(requestBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        resultActions.andExpect(status().isConflict())
+            .andExpect(jsonPath("$..['status']").value("CONFLICT"))
+            .andExpect(jsonPath("$..['message']").value("이미 존재하는 하위 카테고리 이름입니다."));
     }
 
     @Test

@@ -163,8 +163,8 @@ public class UpperProductCategoryControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("기존 상위 상품 카테고리의 이름 수정 시 다른 상위 상품 카테고리와 일므이 중복될 경우 예외를 발생한다.")
-    void 상위카테고리_이름_수정_예외() throws Exception {
+    @DisplayName("기존 상위 상품 카테고리의 이름 수정 시 다른 상위 상품 카테고리와 이름이 중복될 경우 예외를 발생한다.")
+    void 상위카테고리_이름_수정_상위중복_예외() throws Exception {
         // given
         String requestBody =
             "{\n"
@@ -183,6 +183,29 @@ public class UpperProductCategoryControllerIntegrationTest {
         resultActions.andExpect(status().isConflict())
             .andExpect(jsonPath("$..['status']").value("CONFLICT"))
             .andExpect(jsonPath("$..['message']").value("이미 존재하는 상위 상품 카테고리 이름입니다."));
+    }
+
+    @Test
+    @DisplayName("기존 상위 상품 카테고리의 이름 수정 시 해당 상위 상품 카테고리의 하위 카테고리와 이름이 중복될 경우 예외를 발생한다.")
+    void 상위카테고리_이름_수정_하위중복_예외() throws Exception {
+        // given
+        String requestBody =
+            "{\n"
+            + "    \"name\" : \"브이넥 티셔츠\"\n"
+            + "}";
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+            patch("/api/upper-product-categories/1")
+                .content(requestBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        resultActions.andExpect(status().isConflict())
+            .andExpect(jsonPath("$..['status']").value("CONFLICT"))
+            .andExpect(jsonPath("$..['message']").value("이미 존재하는 하위 카테고리 이름입니다."));
     }
 
     @Test

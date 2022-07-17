@@ -51,9 +51,7 @@ public class UpperProductCategoryService {
     private UpperProductCategoryItem getUnclassifiedProductCategories() {
         List<SubProductCategory> unclassifiedSubProductCategories = subProductCategoryRepository.findAllByUpperProductCategoryIsNull();
         UpperProductCategory unclassifiedProductCategory = UpperProductCategory.builder()
-            .name(UNCLASSIFIED_CATEGORY)
-            .subProductCategories(unclassifiedSubProductCategories)
-            .build();
+            .name(UNCLASSIFIED_CATEGORY).subProductCategories(unclassifiedSubProductCategories).build();
 
         return UpperProductCategoryItem.from(unclassifiedProductCategory);
     }

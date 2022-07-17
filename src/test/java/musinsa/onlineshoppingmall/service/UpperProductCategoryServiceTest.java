@@ -157,7 +157,8 @@ class UpperProductCategoryServiceTest {
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
             .id(1L).name("모자").build();
 
-        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
+        given(upperProductCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
+        given(upperProductCategoryRepository.findByName("액세서리")).willReturn(null);
 
         // when
         UpperProductCategoryItem upperProductCategoryItem = upperProductCategoryService.updateCategory(1L, "액세서리");
@@ -178,7 +179,7 @@ class UpperProductCategoryServiceTest {
         UpperProductCategory upperProductCategory2 = UpperProductCategory.builder()
             .id(2L).name("모자").build();
 
-        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory1));
+        given(upperProductCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(upperProductCategory1));
         given(upperProductCategoryRepository.findByName("모자")).willReturn(upperProductCategory2);
 
         // when, then
@@ -201,7 +202,7 @@ class UpperProductCategoryServiceTest {
 
         upperProductCategory.addSubProductCategory(subProductCategory);
 
-        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
+        given(upperProductCategoryRepository.findAllCategoriesById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
         given(upperProductCategoryRepository.findByName("목걸이")).willReturn(null);
 
         // when, then
@@ -216,8 +217,6 @@ class UpperProductCategoryServiceTest {
         // given
         UpperProductCategory upperProductCategory = UpperProductCategory.builder()
             .id(1L).name("모자").build();
-
-        given(upperProductCategoryRepository.findById(1L)).willReturn(Optional.ofNullable(upperProductCategory));
 
         // when
         upperProductCategoryService.deleteCategory(1L);

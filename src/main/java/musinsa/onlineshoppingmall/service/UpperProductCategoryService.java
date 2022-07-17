@@ -27,13 +27,16 @@ public class UpperProductCategoryService {
 
     @Transactional(readOnly = true)
     public SubProductCategoryItems getSubCategoriesById(Long id) {
-        UpperProductCategory upperProductCategory = upperProductCategoryRepository.findAllCategoriesById(id).orElseThrow(() -> {
-            throw new IllegalStateException("존재하는 상품 카테고리가 없습니다.");
-        });
-
+        UpperProductCategory upperProductCategory = getUpperProductCategoryWithSubByIdOrThrow(id);
         List<SubProductCategoryItem> categoryItems = upperProductCategory.subProductCategoryItems();
 
         return new SubProductCategoryItems(categoryItems);
+    }
+
+    private UpperProductCategory getUpperProductCategoryWithSubByIdOrThrow(Long id) {
+        return upperProductCategoryRepository.findAllCategoriesById(id).orElseThrow(() -> {
+            throw new IllegalStateException("존재하는 상품 카테고리가 없습니다.");
+        });
     }
 
     @Transactional(readOnly = true)
@@ -73,22 +76,14 @@ public class UpperProductCategoryService {
     }
 
     public UpperProductCategoryItem updateCategory(Long id, String name) {
-        UpperProductCategory upperProductCategory = getUpperProductCategoryByIdOrThrow(id);
+        UpperProductCategory upperProductCategory = getUpperProductCategoryWithSubByIdOrThrow(id);
         validateDuplicateNameOfUpperProductCategories(name);
-        upperProductCategory.validateDuplicateNameOfSubProductCategories(name);
         upperProductCategory.updateName(name);
 
         return UpperProductCategoryItem.from(upperProductCategory);
     }
 
-    private UpperProductCategory getUpperProductCategoryByIdOrThrow(Long id) {
-        return upperProductCategoryRepository.findById(id).orElseThrow(() -> {
-            throw new IllegalStateException("존재하는 상위 상품 카테고리가 없습니다.");
-        });
-    }
-
     public void deleteCategory(Long id) {
-        getUpperProductCategoryByIdOrThrow(id);
         upperProductCategoryRepository.deleteById(id);
     }
 }

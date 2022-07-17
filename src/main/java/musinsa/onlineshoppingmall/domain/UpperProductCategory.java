@@ -48,13 +48,21 @@ public class UpperProductCategory extends BaseTimeEntity {
             .collect(Collectors.toList());
     }
 
-    public void validateDuplicateNameOfUpperProductCategory(String name) {
+    public void addSubProductCategory(SubProductCategory... subProductCategories) {
+        Arrays.stream(subProductCategories).forEach(subProductCategory -> {
+            validateDuplicateNameOfUpperProductCategory(subProductCategory.getName());
+            validateDuplicateNameOfSubProductCategories(subProductCategory.getName());
+            this.subProductCategories.add(subProductCategory);
+        });
+    }
+
+    private void validateDuplicateNameOfUpperProductCategory(String name) {
         if (this.name.equals(name)) {
             throw new IllegalStateException("하위 카테고리는 상위 카테고리와 동일한 이름일 수 없습니다.");
         }
     }
 
-    public void validateDuplicateNameOfSubProductCategories(String name) {
+    private void validateDuplicateNameOfSubProductCategories(String name) {
         subProductCategories.stream()
             .filter(subProductCategory -> subProductCategory.hasSameName(name))
             .findFirst().ifPresent(m -> {
@@ -62,16 +70,17 @@ public class UpperProductCategory extends BaseTimeEntity {
             });
     }
 
-    public void addSubProductCategory(SubProductCategory... subProductCategories) {
-        Arrays.stream(subProductCategories).forEach(this.subProductCategories::add);
-    }
-
     public void updateName(String name) {
+        validateDuplicateNameOfSubProductCategories(name);
         this.name = name;
     }
 
+    public void removeSubProductCategory(SubProductCategory subProductCategory) {
+        subProductCategories.remove(subProductCategory);
+    }
+
     @PreRemove
-    public void removeSubProductCategory() {
+    public void removeSubProductCategories() {
         subProductCategories.forEach(SubProductCategory::initUpperProductCategory);
     }
 }

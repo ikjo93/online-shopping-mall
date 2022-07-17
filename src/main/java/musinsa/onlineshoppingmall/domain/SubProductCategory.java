@@ -1,5 +1,6 @@
 package musinsa.onlineshoppingmall.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,13 +42,12 @@ public class SubProductCategory extends BaseTimeEntity {
         return this.name.equals(name);
     }
 
-    public void updateInfo(UpperProductCategory upperProductCategory, String name) {
+    public void update(UpperProductCategory upperProductCategory, String name) {
         if (this.upperProductCategory != null) {
-            this.upperProductCategory.getSubProductCategories().remove(this);
+            //this.upperProductCategory.removeSubProductCategory(this);
         }
 
         this.upperProductCategory = upperProductCategory;
-        this.upperProductCategory.addSubProductCategory(this);
         this.name = name;
     }
 

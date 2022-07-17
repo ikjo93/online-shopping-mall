@@ -18,7 +18,7 @@ public class SubProductCategoryService {
     private final UpperProductCategoryRepository upperProductCategoryRepository;
 
     public SubProductCategoryItem saveCategory(Long upperProductCategoryId, String name) {
-        UpperProductCategory upperProductCategory = getUpperProductCategoryByIdOrThrow(upperProductCategoryId);
+        UpperProductCategory upperProductCategory = getUpperProductCategoryWithSubByIdOrThrow(upperProductCategoryId);
         SubProductCategory subProductCategory = SubProductCategory.builder()
             .upperProductCategory(upperProductCategory).name(name).build();
 
@@ -28,7 +28,7 @@ public class SubProductCategoryService {
         return SubProductCategoryItem.from(savedSubProductCategory);
     }
 
-    private UpperProductCategory getUpperProductCategoryByIdOrThrow(Long id) {
+    private UpperProductCategory getUpperProductCategoryWithSubByIdOrThrow(Long id) {
         return upperProductCategoryRepository.findAllCategoriesById(id).orElseThrow(() -> {
             throw new IllegalStateException("존재하는 상위 상품 카테고리가 없습니다.");
         });
@@ -36,7 +36,7 @@ public class SubProductCategoryService {
 
     public SubProductCategory updateCategory(Long subProductCategoryId, Long upperProductCategoryId, String name) {
         SubProductCategory subProductCategory = getSubProductCategoryByIdOrThrow(subProductCategoryId);
-        UpperProductCategory upperProductCategoryToUpdate = getUpperProductCategoryByIdOrThrow(upperProductCategoryId);
+        UpperProductCategory upperProductCategoryToUpdate = getUpperProductCategoryWithSubByIdOrThrow(upperProductCategoryId);
 
         subProductCategory.update(upperProductCategoryToUpdate, name);
         upperProductCategoryToUpdate.addSubProductCategory(subProductCategory);

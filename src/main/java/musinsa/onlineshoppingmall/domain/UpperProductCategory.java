@@ -38,9 +38,6 @@ public class UpperProductCategory extends BaseTimeEntity {
 
     private String name;
 
-    /**
-     * 비지니스 로직
-     */
     public List<SubProductCategoryItem> subProductCategoryItems() {
         return subProductCategories
             .stream()

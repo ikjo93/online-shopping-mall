@@ -50,7 +50,7 @@ public class UpperProductCategoryControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("상위 상품 카테고리를 지정하지 않았을 때 전체 상품 카테고리를 조회할 수 있다.")
+    @DisplayName("상위 상품 카테고리를 지정하지 않았을 때 미분류 하위 카테고리를 포함한 전체 상품 카테고리를 조회할 수 있다.")
     void 전체카테고리_조회() throws Exception {
         // given
 
@@ -79,11 +79,14 @@ public class UpperProductCategoryControllerIntegrationTest {
             .andExpect(jsonPath("$.totalCategories[2].subCategories[0].id").value(5))
             .andExpect(jsonPath("$.totalCategories[2].subCategories[0].name").value("운동화"))
             .andExpect(jsonPath("$.totalCategories[2].subCategories[1].id").value(6))
-            .andExpect(jsonPath("$.totalCategories[2].subCategories[1].name").value("스니커즈"));
+            .andExpect(jsonPath("$.totalCategories[2].subCategories[1].name").value("스니커즈"))
+            .andExpect(jsonPath("$.totalCategories[3].id").doesNotExist())
+            .andExpect(jsonPath("$.totalCategories[3].name").value("UNCLASSIFIED"))
+            .andExpect(jsonPath("$.totalCategories[3].subCategories").isEmpty());
     }
 
     @Test
-    @DisplayName("신규 상위 상품 카테고리를 등록할 수 있다.")
+    @DisplayName("기존에 존재하는 상위 상품 카테고리와 이름이 중복되지 않았을 때 신규 상위 상품 카테고리를 등록할 수 있다.")
     void 신규_상위카테고리_등록() throws Exception {
         // given
         String requestBody =
@@ -107,6 +110,29 @@ public class UpperProductCategoryControllerIntegrationTest {
         resultActions.andExpect(status().isOk())
             .andExpect(jsonPath("$..['id']").value(4))
             .andExpect(jsonPath("$..['name']").value("모자"));
+    }
+
+    @Test
+    @DisplayName("신규 상위 상품 카테고리를 등록 시 기존에 존재하는 상위 상품 카테고리와 이름이 중복될 때 예외가 발생한다.")
+    void 신규_상위카테고리_등록_예외() throws Exception {
+        // given
+        String requestBody =
+            "{\n"
+            + "    \"name\" : \"티셔츠\"\n"
+            + "}";
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+            post("/api/upper-product-categories")
+                .content(requestBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        resultActions.andExpect(status().isConflict())
+            .andExpect(jsonPath("$..['status']").value("CONFLICT"))
+            .andExpect(jsonPath("$..['message']").value("이미 존재하는 상위 상품 카테고리 이름입니다."));
     }
 
     @Test
@@ -134,6 +160,29 @@ public class UpperProductCategoryControllerIntegrationTest {
         resultActions.andExpect(status().isOk())
             .andExpect(jsonPath("$.id").value(1))
             .andExpect(jsonPath("$.name").value("상의"));
+    }
+
+    @Test
+    @DisplayName("기존 상위 상품 카테고리의 이름 수정 시 다른 상위 상품 카테고리와 일므이 중복될 경우 예외를 발생한다.")
+    void 상위카테고리_이름_수정_예외() throws Exception {
+        // given
+        String requestBody =
+            "{\n"
+            + "    \"name\" : \"바지\"\n"
+            + "}";
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+            patch("/api/upper-product-categories/1")
+                .content(requestBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        resultActions.andExpect(status().isConflict())
+            .andExpect(jsonPath("$..['status']").value("CONFLICT"))
+            .andExpect(jsonPath("$..['message']").value("이미 존재하는 상위 상품 카테고리 이름입니다."));
     }
 
     @Test

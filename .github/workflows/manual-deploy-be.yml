@@ -1,0 +1,39 @@
+name: Munual Deploy Backend
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+
+    steps:
+      - name: checkout Github Action
+        uses: actions/checkout@v3
+
+      - name: Docker build and push
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t share-travel .
+          docker tag share-travel ${{ secrets.DOCKER_USERNAME }}/share-travel:${GITHUB_SHA::7}
+          docker push ${{ secrets.DOCKER_USERNAME }}/share-travel:${GITHUB_SHA::7}
+
+      - name: Deploy to our AWS infra through Docker
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ec2-user
+          key: ${{ secrets.AWS_PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/share-travel:${GITHUB_SHA::7}
+            docker tag ${{ secrets.DOCKER_USERNAME }}/share-travel:${GITHUB_SHA::7} share-travel
+            docker stop share-travel-spring-container
+            docker run -d --rm --name share-travel-spring-container -e JWT_SECRET=${{ secrets.JWT_SECRET }} -e TZ=Asia/Seoul -p 8080:8080 --net mynet --ip 172.19.0.3 share-travel
